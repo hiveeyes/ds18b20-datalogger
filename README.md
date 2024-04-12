@@ -4,10 +4,10 @@
 temperature matrix based on raspberry pi, python, 5x6 ds18b20, and grafana
 
 ## files
-README.md - this file
-LICENSE
-temp-matrix_5x6.py - sensor reading and data logging to hiveeyes
-temp-matrix_5x6-grafana_desktop.json - desktop file for visualization in grafana
+  * README.md - this file
+  * LICENSE
+  * temp-matrix_5x6.py - sensor reading and data logging to hiveeyes
+  * temp-matrix_5x6-grafana_desktop.json - desktop file for visualization in grafana
 
 ## sensor wiring
 be aware that you might have to ajust your resistors size.
