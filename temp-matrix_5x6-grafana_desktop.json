@@ -1,0 +1,2043 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      },
+      {
+        "datasource": "hiveeyes_test_irsensor",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(255, 96, 96, 1)",
+        "name": "Events default_test1",
+        "query": "SELECT * FROM \"default_test1_events\" WHERE $timeFilter",
+        "showIn": 0,
+        "tagsColumn": "tags",
+        "textColumn": "text",
+        "titleColumn": "title"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 924,
+  "links": [
+    {
+      "icon": "external link",
+      "tags": [],
+      "targetBlank": true,
+      "title": "Wtee",
+      "tooltip": "Watch the dataflow to hiveeyes db live.",
+      "type": "link",
+      "url": "https://swarm.hiveeyes.org/transmissions"
+    }
+  ],
+  "panels": [
+    {
+      "aliasColors": {},
+      "cacheTimeout": null,
+      "datasource": "hiveeyes_27041c2a_8afd_4a1e_b3ae_44233fa1f06b",
+      "doInit": {},
+      "format": "short",
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 0,
+        "y": 0
+      },
+      "handleMetric": {},
+      "id": 10,
+      "interval": null,
+      "js_code": "function hslToRgb(h, s, l){\n    var r, g, b;\n    if(s === 0){\n        r = g = b = l; // achromatic\n\n    }else{\n        var hue2rgb = function hue2rgb(p, q, t){\n            if(t < 0) t += 1;\n            if(t > 1) t -= 1;\n            if(t < 1/6) return p + (q - p) * 6 * t;\n            if(t < 1/2) return q;\n            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;\n            return p;\n        }\n\n        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;\n        var p = 2 * l - q;\n        r = hue2rgb(p, q, h + 1/3);\n        g = hue2rgb(p, q, h);\n        b = hue2rgb(p, q, h - 1/3);\n    }\n\n    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];\n}\n\nfunction rangePercentage (input, range_min, range_max, range_2ndMax){\n    var percentage = ((input - range_min) * 100) / (range_max - range_min);\n    \n    if (percentage > 100) {\n        if (typeof range_2ndMax !== 'undefined'){\n            percentage = ((range_2ndMax - input) * 100) / (range_2ndMax - range_max);\n            if (percentage < 0) {\n                percentage = 0;\n            }\n\n        } else {\n            percentage = 100;\n        }\n    } else if (percentage < 0){\n        percentage = 0;\n    }\n\n    var percent = (percentage / 100)\n    return percent;\n}\n\nfunction percentageToHsl(percentage, hue0, hue1) {\n    var hue = (percentage * (hue1 - hue0)) + hue0;\n    return 'hsl(' + hue + ', 100%, 50%)';\n}\n\nfunction celsiusToColor(celsius){\n    var celsiusColor = percentageToHsl( rangePercentage( celsius, -20, 40), 0.55, 0);\n    return celsiusColor;\n}\n\n\nvar S = Snap(svgnode);\n\nvar rect_ir_1_1 = S.select(\"#temp-ir-1-1\");\nvar rect_ir_1_2 = S.select(\"#temp-ir-1-2\");\nvar rect_ir_1_3 = S.select(\"#temp-ir-1-3\");\nvar rect_ir_1_4 = S.select(\"#temp-ir-1-4\");\nvar rect_ir_1_5 = S.select(\"#temp-ir-1-5\");\n\nrect_ir_1_1.attr({\"fill\": celsiusToColor( ctrl.series[0].stats.avg ) });\nrect_ir_1_2.attr({\"fill\": celsiusToColor( ctrl.series[1].stats.avg ) });\nrect_ir_1_3.attr({\"fill\": celsiusToColor( ctrl.series[2].stats.avg ) });\nrect_ir_1_4.attr({\"fill\": celsiusToColor( ctrl.series[3].stats.avg ) });\nrect_ir_1_5.attr({\"fill\": celsiusToColor( ctrl.series[4].stats.avg ) });\n\nvar rect_ir_2_1 = S.select(\"#temp-ir-2-1\");\nvar rect_ir_2_2 = S.select(\"#temp-ir-2-2\");\nvar rect_ir_2_3 = S.select(\"#temp-ir-2-3\");\nvar rect_ir_2_4 = S.select(\"#temp-ir-2-4\");\nvar rect_ir_2_5 = S.select(\"#temp-ir-2-5\");\n\nrect_ir_2_1.attr({\"fill\": celsiusToColor( ctrl.series[5].stats.avg ) });\nrect_ir_2_2.attr({\"fill\": celsiusToColor( ctrl.series[6].stats.avg ) });\nrect_ir_2_3.attr({\"fill\": celsiusToColor( ctrl.series[7].stats.avg ) });\nrect_ir_2_4.attr({\"fill\": celsiusToColor( ctrl.series[8].stats.avg ) });\nrect_ir_2_5.attr({\"fill\": celsiusToColor( ctrl.series[9].stats.avg ) });\n\nvar rect_ir_3_1 = S.select(\"#temp-ir-3-1\");\nvar rect_ir_3_2 = S.select(\"#temp-ir-3-2\");\nvar rect_ir_3_3 = S.select(\"#temp-ir-3-3\");\nvar rect_ir_3_4 = S.select(\"#temp-ir-3-4\");\nvar rect_ir_3_5 = S.select(\"#temp-ir-3-5\");\n\nrect_ir_3_1.attr({\"fill\": celsiusToColor( ctrl.series[10].stats.avg ) });\nrect_ir_3_2.attr({\"fill\": celsiusToColor( ctrl.series[11].stats.avg ) });\nrect_ir_3_3.attr({\"fill\": celsiusToColor( ctrl.series[12].stats.avg ) });\nrect_ir_3_4.attr({\"fill\": celsiusToColor( ctrl.series[13].stats.avg ) });\nrect_ir_3_5.attr({\"fill\": celsiusToColor( ctrl.series[14].stats.avg ) });\n\nvar rect_ir_4_1 = S.select(\"#temp-ir-4-1\");\nvar rect_ir_4_2 = S.select(\"#temp-ir-4-2\");\nvar rect_ir_4_3 = S.select(\"#temp-ir-4-3\");\nvar rect_ir_4_4 = S.select(\"#temp-ir-4-4\");\nvar rect_ir_4_5 = S.select(\"#temp-ir-4-5\");\n\nrect_ir_4_1.attr({\"fill\": celsiusToColor( ctrl.series[15].stats.avg ) });\nrect_ir_4_2.attr({\"fill\": celsiusToColor( ctrl.series[16].stats.avg ) });\nrect_ir_4_3.attr({\"fill\": celsiusToColor( ctrl.series[17].stats.avg ) });\nrect_ir_4_4.attr({\"fill\": celsiusToColor( ctrl.series[18].stats.avg ) });\nrect_ir_4_5.attr({\"fill\": celsiusToColor( ctrl.series[19].stats.avg ) });\n\nvar rect_ir_5_1 = S.select(\"#temp-ir-5-1\");\nvar rect_ir_5_2 = S.select(\"#temp-ir-5-2\");\nvar rect_ir_5_3 = S.select(\"#temp-ir-5-3\");\nvar rect_ir_5_4 = S.select(\"#temp-ir-5-4\");\nvar rect_ir_5_5 = S.select(\"#temp-ir-5-5\");\n\nrect_ir_5_1.attr({\"fill\": celsiusToColor( ctrl.series[20].stats.avg ) });\nrect_ir_5_2.attr({\"fill\": celsiusToColor( ctrl.series[21].stats.avg ) });\nrect_ir_5_3.attr({\"fill\": celsiusToColor( ctrl.series[22].stats.avg ) });\nrect_ir_5_4.attr({\"fill\": celsiusToColor( ctrl.series[23].stats.avg ) });\nrect_ir_5_5.attr({\"fill\": celsiusToColor( ctrl.series[24].stats.avg ) });\n\nvar rect_ir_6_1 = S.select(\"#temp-ir-6-1\");\nvar rect_ir_6_2 = S.select(\"#temp-ir-6-2\");\nvar rect_ir_6_3 = S.select(\"#temp-ir-6-3\");\nvar rect_ir_6_4 = S.select(\"#temp-ir-6-4\");\nvar rect_ir_6_5 = S.select(\"#temp-ir-6-5\");\n\nrect_ir_6_1.attr({\"fill\": celsiusToColor( ctrl.series[25].stats.avg ) });\nrect_ir_6_2.attr({\"fill\": celsiusToColor( ctrl.series[26].stats.avg ) });\nrect_ir_6_3.attr({\"fill\": celsiusToColor( ctrl.series[27].stats.avg ) });\nrect_ir_6_4.attr({\"fill\": celsiusToColor( ctrl.series[28].stats.avg ) });\nrect_ir_6_5.attr({\"fill\": celsiusToColor( ctrl.series[29].stats.avg ) });\n",
+      "js_init_code": "",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "repositories": {
+        "rtmaster": {
+          "description": "simple examples",
+          "items": [
+            {
+              "category": "arrows",
+              "description": "Arrow facing up",
+              "name": "arrow-up",
+              "path": "rtmaster/arrows/arrow-up.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing down",
+              "name": "arrow-down",
+              "path": "rtmaster/arrows/arrow-down.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing right",
+              "name": "arrow-right",
+              "path": "rtmaster/arrows/arrow-right.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing left",
+              "name": "arrow-left",
+              "path": "rtmaster/arrows/arrow-left.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing up right",
+              "name": "arrow-up-right",
+              "path": "rtmaster/arrows/arrow-up-right.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing up left",
+              "name": "arrow-up-left",
+              "path": "rtmaster/arrows/arrow-up-left.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing down left",
+              "name": "arrow-down-left",
+              "path": "rtmaster/arrows/arrow-down-left.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing down right",
+              "name": "arrow-down-right",
+              "path": "rtmaster/arrows/arrow-down-right.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing left right",
+              "name": "arrow-left-right",
+              "path": "rtmaster/arrows/arrow-left-right.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing up down",
+              "name": "arrow-up-down",
+              "path": "rtmaster/arrows/arrow-up-down.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing up down left right",
+              "name": "arrow-up-down-left-right",
+              "path": "rtmaster/arrows/arrow-up-down-left-right.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Factory",
+              "name": "factory",
+              "path": "rtmaster/facilities/factory.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Jackup",
+              "name": "jackup",
+              "path": "rtmaster/facilities/jackup.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Plant",
+              "name": "plant",
+              "path": "rtmaster/facilities/plant.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Semisub",
+              "name": "semisub",
+              "path": "rtmaster/facilities/semisub.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Ship",
+              "name": "ship",
+              "path": "rtmaster/facilities/ship.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Truck",
+              "name": "truck",
+              "path": "rtmaster/facilities/truck.svg"
+            },
+            {
+              "category": "indicators",
+              "description": "Light Bulb",
+              "name": "light-bulb",
+              "path": "rtmaster/indicators/light-bulb.svg"
+            },
+            {
+              "category": "indicators",
+              "description": "Green Light Indicator",
+              "name": "light-green",
+              "path": "rtmaster/indicators/light-green.svg"
+            },
+            {
+              "category": "indicators",
+              "description": "Orange Light Indicator",
+              "name": "light-orange",
+              "path": "rtmaster/indicators/light-orange.svg"
+            },
+            {
+              "category": "indicators",
+              "description": "Red Light Indicator",
+              "name": "light-red",
+              "path": "rtmaster/indicators/light-red.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Compressor",
+              "name": "compressor",
+              "path": "rtmaster/industrial/compressor.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Derrick",
+              "name": "derrick",
+              "path": "rtmaster/industrial/derrick.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Heat Exchanger",
+              "name": "heatexchanger",
+              "path": "rtmaster/industrial/heatexchanger.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Motor",
+              "name": "motor",
+              "path": "rtmaster/industrial/motor.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Pump",
+              "name": "pump",
+              "path": "rtmaster/industrial/pump.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Horizontal Tank",
+              "name": "tank-horizontal",
+              "path": "rtmaster/industrial/tank-horizontal.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Vertical Tank",
+              "name": "tank-vertical",
+              "path": "rtmaster/industrial/tank-vertical.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Turbine",
+              "name": "turbine",
+              "path": "rtmaster/industrial/turbine.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Horizontal Vessel",
+              "name": "vessel-horizontal",
+              "path": "rtmaster/industrial/vessel-horizontal.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Vertical Vessel",
+              "name": "vessel-vertical",
+              "path": "rtmaster/industrial/vessel-vertical.svg"
+            },
+            {
+              "category": "letters",
+              "description": "A",
+              "name": "A",
+              "path": "rtmaster/letters/letter-a.svg"
+            },
+            {
+              "category": "letters",
+              "description": "B",
+              "name": "B",
+              "path": "rtmaster/letters/letter-b.svg"
+            },
+            {
+              "category": "letters",
+              "description": "C",
+              "name": "C",
+              "path": "rtmaster/letters/letter-c.svg"
+            },
+            {
+              "category": "letters",
+              "description": "D",
+              "name": "D",
+              "path": "rtmaster/letters/letter-d.svg"
+            },
+            {
+              "category": "letters",
+              "description": "E",
+              "name": "E",
+              "path": "rtmaster/letters/letter-e.svg"
+            },
+            {
+              "category": "letters",
+              "description": "F",
+              "name": "F",
+              "path": "rtmaster/letters/letter-f.svg"
+            },
+            {
+              "category": "letters",
+              "description": "G",
+              "name": "G",
+              "path": "rtmaster/letters/letter-g.svg"
+            },
+            {
+              "category": "letters",
+              "description": "H",
+              "name": "H",
+              "path": "rtmaster/letters/letter-h.svg"
+            },
+            {
+              "category": "letters",
+              "description": "I",
+              "name": "I",
+              "path": "rtmaster/letters/letter-i.svg"
+            },
+            {
+              "category": "letters",
+              "description": "J",
+              "name": "J",
+              "path": "rtmaster/letters/letter-j.svg"
+            },
+            {
+              "category": "letters",
+              "description": "K",
+              "name": "K",
+              "path": "rtmaster/letters/letter-k.svg"
+            },
+            {
+              "category": "letters",
+              "description": "L",
+              "name": "L",
+              "path": "rtmaster/letters/letter-l.svg"
+            },
+            {
+              "category": "letters",
+              "description": "M",
+              "name": "M",
+              "path": "rtmaster/letters/letter-m.svg"
+            },
+            {
+              "category": "letters",
+              "description": "N",
+              "name": "N",
+              "path": "rtmaster/letters/letter-n.svg"
+            },
+            {
+              "category": "letters",
+              "description": "O",
+              "name": "O",
+              "path": "rtmaster/letters/letter-o.svg"
+            },
+            {
+              "category": "letters",
+              "description": "P",
+              "name": "P",
+              "path": "rtmaster/letters/letter-p.svg"
+            },
+            {
+              "category": "letters",
+              "description": "Q",
+              "name": "Q",
+              "path": "rtmaster/letters/letter-q.svg"
+            },
+            {
+              "category": "letters",
+              "description": "R",
+              "name": "R",
+              "path": "rtmaster/letters-letter-r.svg"
+            },
+            {
+              "category": "letters",
+              "description": "S",
+              "name": "S",
+              "path": "rtmaster/letters/letter-s.svg"
+            },
+            {
+              "category": "letters",
+              "description": "T",
+              "name": "T",
+              "path": "rtmaster/letters/letter-t.svg"
+            },
+            {
+              "category": "letters",
+              "description": "U",
+              "name": "U",
+              "path": "rtmaster/letters/letter-u.svg"
+            },
+            {
+              "category": "letters",
+              "description": "V",
+              "name": "V",
+              "path": "rtmaster/letters/letter-v.svg"
+            },
+            {
+              "category": "letters",
+              "description": "W",
+              "name": "W",
+              "path": "rtmaster/letters/letter-w.svg"
+            },
+            {
+              "category": "letters",
+              "description": "X",
+              "name": "X",
+              "path": "rtmaster/letters/letter-x.svg"
+            },
+            {
+              "category": "letters",
+              "description": "Y",
+              "name": "Y",
+              "path": "rtmaster/letters/letter-y.svg"
+            },
+            {
+              "category": "letters",
+              "description": "Z",
+              "name": "Z",
+              "path": "rtmaster/letters/letter-z.svg"
+            },
+            {
+              "category": "meters",
+              "description": "Laboratory Flask",
+              "name": "flask",
+              "path": "rtmaster/meters/flask.svg"
+            },
+            {
+              "category": "meters",
+              "description": "Flowmeter",
+              "name": "flowmeter",
+              "path": "rtmaster/meters/flowmeter.svg"
+            },
+            {
+              "category": "meters",
+              "description": "Gauge",
+              "name": "gauge",
+              "path": "rtmaster/meters/gauge.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "0",
+              "name": "0",
+              "path": "rtmaster/numbers/number-0.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "1",
+              "name": "1",
+              "path": "rtmaster/numbers/number-1.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "2",
+              "name": "2",
+              "path": "rtmaster/numbers/number-2.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "3",
+              "name": "3",
+              "path": "rtmaster/numbers/number-3.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "4",
+              "name": "4",
+              "path": "rtmaster/numbers/number-4.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "5",
+              "name": "5",
+              "path": "rtmaster/numbers/number-5.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "6",
+              "name": "6",
+              "path": "rtmaster/numbers/number-6.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "7",
+              "name": "7",
+              "path": "rtmaster/numbers/number-7.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "8",
+              "name": "8",
+              "path": "rtmaster/numbers/number-8.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "9",
+              "name": "9",
+              "path": "rtmaster/numbers/number-9.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve down",
+              "name": "pipe-curve-down",
+              "path": "rtmaster/pipes/pipe-curve-down.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve down left",
+              "name": "pipe-curve-down-left",
+              "path": "rtmaster/pipes/pipe-curve-down-left.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve down right",
+              "name": "pipe-curve-down-right",
+              "path": "rtmaster/pipes/pipe-curve-down-right.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve left",
+              "name": "pipe-curve-left",
+              "path": "rtmaster/pipes/pipe-curve-left.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve right",
+              "name": "pipe-curve-right",
+              "path": "rtmaster/pipes/pipe-curve-right.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve up",
+              "name": "pipe-curve-up",
+              "path": "rtmaster/pipes/pipe-curve-up.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve up left",
+              "name": "pipe-curve-up-left",
+              "path": "rtmaster/pipes/pipe-curve-up-left.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve up right",
+              "name": "pipe-curve-up-right",
+              "path": "rtmaster/pipes/pipe-curve-up-right.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe diagonal left",
+              "name": "pipe-diagonal-left",
+              "path": "rtmaster/pipes/pipe-diagonal-left.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe diagonal right",
+              "name": "pipe-diagonal-right",
+              "path": "rtmaster/pipes/pipe-diagonal-right.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe flange horizontal",
+              "name": "pipe-flange-horizontal",
+              "path": "rtmaster/pipes/pipe-flange-horizontal.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe flange intersection",
+              "name": "pipe-flange-intersection",
+              "path": "rtmaster/pipes/pipe-flange-intersection.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe flange vertical",
+              "name": "pipe-flange-vertical",
+              "path": "rtmaster/pipes/pipe-flange-vertical.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe horizontal",
+              "name": "pipe-horizontal",
+              "path": "rtmaster/pipes/pipe-horizontal.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe tee down",
+              "name": "pipe-tee-down",
+              "path": "rtmaster/pipes/pipe-tee-down.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe tee left",
+              "name": "pipe-tee-left",
+              "path": "rtmaster/pipes/pipe-tee-left.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe tee right",
+              "name": "pipe-tee-right",
+              "path": "rtmaster/pipes/pipe-tee-right.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe tee up",
+              "name": "pipe-tee-up",
+              "path": "rtmaster/pipes/pipe-tee-up"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe vertical",
+              "name": "pipe-vertical",
+              "path": "rtmaster/pipes/pipe-vertical.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Circle",
+              "name": "circle",
+              "path": "rtmaster/shapes/circle.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Gear",
+              "name": "gear",
+              "path": "rtmaster/shapes/gear.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line horizontal",
+              "name": "line-horizontal",
+              "path": "rtmaster/shapes/line-horizontal.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line horizontal arrow left",
+              "name": "line-horizontal-arrow-left",
+              "path": "rtmaster/shapes/line-horizontal-arrow-left.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line horizontal arrow right",
+              "name": "line-horizontal-arrow-right",
+              "path": "rtmaster/shapes/line-horizontal-arrow-right.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line vertical",
+              "name": "line-vertical",
+              "path": "rtmaster/shapes/line-vertical.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line vertical arrow down",
+              "name": "line-vertical-arrow-down",
+              "path": "rtmaster/shapes/line-vertical-arrow-down.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line vertical arrow up",
+              "name": "line-vertical-arrow-up",
+              "path": "rtmaster/shapes/line-vertical-arrow-up.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Square",
+              "name": "square",
+              "path": "rtmaster/shapes/square.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Triangle down",
+              "name": "triangle-down",
+              "path": "rtmaster/shapes/triangle-down.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Triangle left",
+              "name": "triangle-left",
+              "path": "rtmaster/shapes/triangle-left.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Triangle right",
+              "name": "triangle-right",
+              "path": "rtmaster/shapes/triangle-right.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Triangle-up",
+              "name": "triangle-up",
+              "path": "rtmaster/shapes/triangle-up.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve Horizontal",
+              "name": "valve-horizontal",
+              "path": "rtmaster/valves/valve-horizontal.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve left right",
+              "name": "valve-left-right",
+              "path": "rtmaster/valves/valve-left-right.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve round down",
+              "name": "valve-round-down",
+              "path": "rtmaster/valves/valve-round-down.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve round left",
+              "name": "valve-round-left",
+              "path": "rtmaster/valves/valve-round-left.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve round right",
+              "name": "valve-round-right",
+              "path": "rtmaster/valves/valve-round-right.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve round up",
+              "name": "valve-round-up",
+              "path": "rtmaster/valves/valve-round-up.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve square down",
+              "name": "valve-square-down",
+              "path": "rtmaster/valves/valve-square-down.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve square left",
+              "name": "valve-square-left",
+              "path": "rtmaster/valves/valve-square-left.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve square right",
+              "name": "valve-square-right",
+              "path": "rtmaster/valves/valve-square-right.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve square up",
+              "name": "valve-square-up",
+              "path": "rtmaster/valves/valve-square-up.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve vertical",
+              "name": "valve-vertical",
+              "path": "rtmaster/valves/valve-vertical"
+            }
+          ],
+          "license": "Apache 2.0",
+          "url": "https://github.com/rtmaster"
+        }
+      },
+      "svgBuilderData": {
+        "elements": [],
+        "height": "100%",
+        "viewport": {
+          "height": 1000,
+          "width": 1000,
+          "x": 0,
+          "y": 0
+        },
+        "width": "100%"
+      },
+      "svg_data": "{\n  \"aliasColors\": {},\n  \"cacheTimeout\": null,\n  \"datasource\": \"hiveeyes_27041c2a_8afd_4a1e_b3ae_44233fa1f06b\",<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" width=\"100%\" height=\"100%\" version=\"1.1\" style=\"shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd\" viewBox=\"25 0 100 100\">\n <defs>\n  \n </defs>\n <g id=\"Ebene_x0020_1\">\n \n  <!-- 1st row, \"px\" 1 to 6 -->\n  <rect id=\"temp-ir-1-1\" x=\"0\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-2-1\" x=\"30\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-3-1\" x=\"60\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-4-1\" x=\"90\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-5-1\" x=\"120\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-6-1\" x=\"150\" y=\"000\" width=\"30\" height=\"20%\"/>\n  \n    <!-- 2nd row, \"px\" 1 to 6 -->\n  <rect id=\"temp-ir-1-2\" x=\"0\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-2-2\" x=\"30\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-3-2\" x=\"60\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-4-2\" x=\"90\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-5-2\" x=\"120\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-6-2\" x=\"150\" y=\"20\" width=\"30\" height=\"20%\"/>\n  \n  <!-- 3rd row, \"px\" 1 to 6 -->\n  <rect id=\"temp-ir-1-3\" x=\"0\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-2-3\" x=\"30\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-3-3\" x=\"60\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-4-3\" x=\"90\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-5-3\" x=\"120\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-6-3\" x=\"150\" y=\"40\" width=\"30\" height=\"20%\"/>\n\n  <!-- 4th row, \"px\" 1 to 6 -->\n  <rect id=\"temp-ir-1-4\" x=\"0\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-2-4\" x=\"30\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-3-4\" x=\"60\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-4-4\" x=\"90\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-5-4\" x=\"120\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-6-4\" x=\"150\" y=\"60\" width=\"30\" height=\"20%\"/>\n\n  <!-- 5th row, \"px\" 1 to 6 -->\n  <rect id=\"temp-ir-1-5\" x=\"0\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-2-5\" x=\"30\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-3-5\" x=\"60\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-4-5\" x=\"90\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-5-5\" x=\"120\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <rect id=\"temp-ir-6-5\" x=\"150\" y=\"80\" width=\"30\" height=\"20%\"/>\n\n </g>\n</svg>\n  \"doInit\": {},\n  \"format\": \"short\",\n  \"gridPos\": {\n    \"h\": 13,\n    \"w\": 10,\n    \"x\": 14,\n    \"y\": 1\n  },\n  \"handleMetric\": {},\n  \"id\": 4,\n  \"interval\": null,\n\n  \"js_init_code\": \"\",\n  \"links\": [],\n  \"maxDataPoints\": 3,\n  \"nullPointMode\": \"connected\",\n  \"repositories\": {\n    \"rtmaster\": {\n      \"url\": \"https://github.com/rtmaster\",\n      \"description\": \"simple examples\",\n      \"license\": \"Apache 2.0\",\n      \"items\": [\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-up\",\n          \"path\": \"rtmaster/arrows/arrow-up.svg\",\n          \"description\": \"Arrow facing up\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-down\",\n          \"path\": \"rtmaster/arrows/arrow-down.svg\",\n          \"description\": \"Arrow facing down\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-right\",\n          \"path\": \"rtmaster/arrows/arrow-right.svg\",\n          \"description\": \"Arrow facing right\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-left\",\n          \"path\": \"rtmaster/arrows/arrow-left.svg\",\n          \"description\": \"Arrow facing left\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-up-right\",\n          \"path\": \"rtmaster/arrows/arrow-up-right.svg\",\n          \"description\": \"Arrow facing up right\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-up-left\",\n          \"path\": \"rtmaster/arrows/arrow-up-left.svg\",\n          \"description\": \"Arrow facing up left\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-down-left\",\n          \"path\": \"rtmaster/arrows/arrow-down-left.svg\",\n          \"description\": \"Arrow facing down left\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-down-right\",\n          \"path\": \"rtmaster/arrows/arrow-down-right.svg\",\n          \"description\": \"Arrow facing down right\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-left-right\",\n          \"path\": \"rtmaster/arrows/arrow-left-right.svg\",\n          \"description\": \"Arrow facing left right\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-up-down\",\n          \"path\": \"rtmaster/arrows/arrow-up-down.svg\",\n          \"description\": \"Arrow facing up down\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-up-down-left-right\",\n          \"path\": \"rtmaster/arrows/arrow-up-down-left-right.svg\",\n          \"description\": \"Arrow facing up down left right\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"factory\",\n          \"path\": \"rtmaster/facilities/factory.svg\",\n          \"description\": \"Factory\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"jackup\",\n          \"path\": \"rtmaster/facilities/jackup.svg\",\n          \"description\": \"Jackup\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"plant\",\n          \"path\": \"rtmaster/facilities/plant.svg\",\n          \"description\": \"Plant\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"semisub\",\n          \"path\": \"rtmaster/facilities/semisub.svg\",\n          \"description\": \"Semisub\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"ship\",\n          \"path\": \"rtmaster/facilities/ship.svg\",\n          \"description\": \"Ship\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"truck\",\n          \"path\": \"rtmaster/facilities/truck.svg\",\n          \"description\": \"Truck\"\n        },\n        {\n          \"category\": \"indicators\",\n          \"name\": \"light-bulb\",\n          \"path\": \"rtmaster/indicators/light-bulb.svg\",\n          \"description\": \"Light Bulb\"\n        },\n        {\n          \"category\": \"indicators\",\n          \"name\": \"light-green\",\n          \"path\": \"rtmaster/indicators/light-green.svg\",\n          \"description\": \"Green Light Indicator\"\n        },\n        {\n          \"category\": \"indicators\",\n          \"name\": \"light-orange\",\n          \"path\": \"rtmaster/indicators/light-orange.svg\",\n          \"description\": \"Orange Light Indicator\"\n        },\n        {\n          \"category\": \"indicators\",\n          \"name\": \"light-red\",\n          \"path\": \"rtmaster/indicators/light-red.svg\",\n          \"description\": \"Red Light Indicator\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"compressor\",\n          \"path\": \"rtmaster/industrial/compressor.svg\",\n          \"description\": \"Compressor\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"derrick\",\n          \"path\": \"rtmaster/industrial/derrick.svg\",\n          \"description\": \"Derrick\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"heatexchanger\",\n          \"path\": \"rtmaster/industrial/heatexchanger.svg\",\n          \"description\": \"Heat Exchanger\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"motor\",\n          \"path\": \"rtmaster/industrial/motor.svg\",\n          \"description\": \"Motor\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"pump\",\n          \"path\": \"rtmaster/industrial/pump.svg\",\n          \"description\": \"Pump\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"tank-horizontal\",\n          \"path\": \"rtmaster/industrial/tank-horizontal.svg\",\n          \"description\": \"Horizontal Tank\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"tank-vertical\",\n          \"path\": \"rtmaster/industrial/tank-vertical.svg\",\n          \"description\": \"Vertical Tank\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"turbine\",\n          \"path\": \"rtmaster/industrial/turbine.svg\",\n          \"description\": \"Turbine\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"vessel-horizontal\",\n          \"path\": \"rtmaster/industrial/vessel-horizontal.svg\",\n          \"description\": \"Horizontal Vessel\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"vessel-vertical\",\n          \"path\": \"rtmaster/industrial/vessel-vertical.svg\",\n          \"description\": \"Vertical Vessel\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"A\",\n          \"path\": \"rtmaster/letters/letter-a.svg\",\n          \"description\": \"A\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"B\",\n          \"path\": \"rtmaster/letters/letter-b.svg\",\n          \"description\": \"B\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"C\",\n          \"path\": \"rtmaster/letters/letter-c.svg\",\n          \"description\": \"C\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"D\",\n          \"path\": \"rtmaster/letters/letter-d.svg\",\n          \"description\": \"D\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"E\",\n          \"path\": \"rtmaster/letters/letter-e.svg\",\n          \"description\": \"E\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"F\",\n          \"path\": \"rtmaster/letters/letter-f.svg\",\n          \"description\": \"F\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"G\",\n          \"path\": \"rtmaster/letters/letter-g.svg\",\n          \"description\": \"G\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"H\",\n          \"path\": \"rtmaster/letters/letter-h.svg\",\n          \"description\": \"H\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"I\",\n          \"path\": \"rtmaster/letters/letter-i.svg\",\n          \"description\": \"I\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"J\",\n          \"path\": \"rtmaster/letters/letter-j.svg\",\n          \"description\": \"J\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"K\",\n          \"path\": \"rtmaster/letters/letter-k.svg\",\n          \"description\": \"K\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"L\",\n          \"path\": \"rtmaster/letters/letter-l.svg\",\n          \"description\": \"L\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"M\",\n          \"path\": \"rtmaster/letters/letter-m.svg\",\n          \"description\": \"M\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"N\",\n          \"path\": \"rtmaster/letters/letter-n.svg\",\n          \"description\": \"N\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"O\",\n          \"path\": \"rtmaster/letters/letter-o.svg\",\n          \"description\": \"O\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"P\",\n          \"path\": \"rtmaster/letters/letter-p.svg\",\n          \"description\": \"P\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"Q\",\n          \"path\": \"rtmaster/letters/letter-q.svg\",\n          \"description\": \"Q\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"R\",\n          \"path\": \"rtmaster/letters-letter-r.svg\",\n          \"description\": \"R\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"S\",\n          \"path\": \"rtmaster/letters/letter-s.svg\",\n          \"description\": \"S\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"T\",\n          \"path\": \"rtmaster/letters/letter-t.svg\",\n          \"description\": \"T\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"U\",\n          \"path\": \"rtmaster/letters/letter-u.svg\",\n          \"description\": \"U\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"V\",\n          \"path\": \"rtmaster/letters/letter-v.svg\",\n          \"description\": \"V\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"W\",\n          \"path\": \"rtmaster/letters/letter-w.svg\",\n          \"description\": \"W\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"X\",\n          \"path\": \"rtmaster/letters/letter-x.svg\",\n          \"description\": \"X\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"Y\",\n          \"path\": \"rtmaster/letters/letter-y.svg\",\n          \"description\": \"Y\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"Z\",\n          \"path\": \"rtmaster/letters/letter-z.svg\",\n          \"description\": \"Z\"\n        },\n        {\n          \"category\": \"meters\",\n          \"name\": \"flask\",\n          \"path\": \"rtmaster/meters/flask.svg\",\n          \"description\": \"Laboratory Flask\"\n        },\n        {\n          \"category\": \"meters\",\n          \"name\": \"flowmeter\",\n          \"path\": \"rtmaster/meters/flowmeter.svg\",\n          \"description\": \"Flowmeter\"\n        },\n        {\n          \"category\": \"meters\",\n          \"name\": \"gauge\",\n          \"path\": \"rtmaster/meters/gauge.svg\",\n          \"description\": \"Gauge\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"0\",\n          \"path\": \"rtmaster/numbers/number-0.svg\",\n          \"description\": \"0\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"1\",\n          \"path\": \"rtmaster/numbers/number-1.svg\",\n          \"description\": \"1\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"2\",\n          \"path\": \"rtmaster/numbers/number-2.svg\",\n          \"description\": \"2\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"3\",\n          \"path\": \"rtmaster/numbers/number-3.svg\",\n          \"description\": \"3\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"4\",\n          \"path\": \"rtmaster/numbers/number-4.svg\",\n          \"description\": \"4\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"5\",\n          \"path\": \"rtmaster/numbers/number-5.svg\",\n          \"description\": \"5\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"6\",\n          \"path\": \"rtmaster/numbers/number-6.svg\",\n          \"description\": \"6\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"7\",\n          \"path\": \"rtmaster/numbers/number-7.svg\",\n          \"description\": \"7\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"8\",\n          \"path\": \"rtmaster/numbers/number-8.svg\",\n          \"description\": \"8\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"9\",\n          \"path\": \"rtmaster/numbers/number-9.svg\",\n          \"description\": \"9\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-down\",\n          \"path\": \"rtmaster/pipes/pipe-curve-down.svg\",\n          \"description\": \"Pipe curve down\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-down-left\",\n          \"path\": \"rtmaster/pipes/pipe-curve-down-left.svg\",\n          \"description\": \"Pipe curve down left\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-down-right\",\n          \"path\": \"rtmaster/pipes/pipe-curve-down-right.svg\",\n          \"description\": \"Pipe curve down right\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-left\",\n          \"path\": \"rtmaster/pipes/pipe-curve-left.svg\",\n          \"description\": \"Pipe curve left\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-right\",\n          \"path\": \"rtmaster/pipes/pipe-curve-right.svg\",\n          \"description\": \"Pipe curve right\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-up\",\n          \"path\": \"rtmaster/pipes/pipe-curve-up.svg\",\n          \"description\": \"Pipe curve up\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-up-left\",\n          \"path\": \"rtmaster/pipes/pipe-curve-up-left.svg\",\n          \"description\": \"Pipe curve up left\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-up-right\",\n          \"path\": \"rtmaster/pipes/pipe-curve-up-right.svg\",\n          \"description\": \"Pipe curve up right\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-diagonal-left\",\n          \"path\": \"rtmaster/pipes/pipe-diagonal-left.svg\",\n          \"description\": \"Pipe diagonal left\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-diagonal-right\",\n          \"path\": \"rtmaster/pipes/pipe-diagonal-right.svg\",\n          \"description\": \"Pipe diagonal right\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-flange-horizontal\",\n          \"path\": \"rtmaster/pipes/pipe-flange-horizontal.svg\",\n          \"description\": \"Pipe flange horizontal\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-flange-intersection\",\n          \"path\": \"rtmaster/pipes/pipe-flange-intersection.svg\",\n          \"description\": \"Pipe flange intersection\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-flange-vertical\",\n          \"path\": \"rtmaster/pipes/pipe-flange-vertical.svg\",\n          \"description\": \"Pipe flange vertical\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-horizontal\",\n          \"path\": \"rtmaster/pipes/pipe-horizontal.svg\",\n          \"description\": \"Pipe horizontal\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-tee-down\",\n          \"path\": \"rtmaster/pipes/pipe-tee-down.svg\",\n          \"description\": \"Pipe tee down\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-tee-left\",\n          \"path\": \"rtmaster/pipes/pipe-tee-left.svg\",\n          \"description\": \"Pipe tee left\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-tee-right\",\n          \"path\": \"rtmaster/pipes/pipe-tee-right.svg\",\n          \"description\": \"Pipe tee right\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-tee-up\",\n          \"path\": \"rtmaster/pipes/pipe-tee-up\",\n          \"description\": \"Pipe tee up\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-vertical\",\n          \"path\": \"rtmaster/pipes/pipe-vertical.svg\",\n          \"description\": \"Pipe vertical\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"circle\",\n          \"path\": \"rtmaster/shapes/circle.svg\",\n          \"description\": \"Circle\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"gear\",\n          \"path\": \"rtmaster/shapes/gear.svg\",\n          \"description\": \"Gear\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-horizontal\",\n          \"path\": \"rtmaster/shapes/line-horizontal.svg\",\n          \"description\": \"Line horizontal\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-horizontal-arrow-left\",\n          \"path\": \"rtmaster/shapes/line-horizontal-arrow-left.svg\",\n          \"description\": \"Line horizontal arrow left\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-horizontal-arrow-right\",\n          \"path\": \"rtmaster/shapes/line-horizontal-arrow-right.svg\",\n          \"description\": \"Line horizontal arrow right\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-vertical\",\n          \"path\": \"rtmaster/shapes/line-vertical.svg\",\n          \"description\": \"Line vertical\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-vertical-arrow-down\",\n          \"path\": \"rtmaster/shapes/line-vertical-arrow-down.svg\",\n          \"description\": \"Line vertical arrow down\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-vertical-arrow-up\",\n          \"path\": \"rtmaster/shapes/line-vertical-arrow-up.svg\",\n          \"description\": \"Line vertical arrow up\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"square\",\n          \"path\": \"rtmaster/shapes/square.svg\",\n          \"description\": \"Square\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"triangle-down\",\n          \"path\": \"rtmaster/shapes/triangle-down.svg\",\n          \"description\": \"Triangle down\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"triangle-left\",\n          \"path\": \"rtmaster/shapes/triangle-left.svg\",\n          \"description\": \"Triangle left\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"triangle-right\",\n          \"path\": \"rtmaster/shapes/triangle-right.svg\",\n          \"description\": \"Triangle right\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"triangle-up\",\n          \"path\": \"rtmaster/shapes/triangle-up.svg\",\n          \"description\": \"Triangle-up\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-horizontal\",\n          \"path\": \"rtmaster/valves/valve-horizontal.svg\",\n          \"description\": \"Valve Horizontal\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-left-right\",\n          \"path\": \"rtmaster/valves/valve-left-right.svg\",\n          \"description\": \"Valve left right\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-round-down\",\n          \"path\": \"rtmaster/valves/valve-round-down.svg\",\n          \"description\": \"Valve round down\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-round-left\",\n          \"path\": \"rtmaster/valves/valve-round-left.svg\",\n          \"description\": \"Valve round left\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-round-right\",\n          \"path\": \"rtmaster/valves/valve-round-right.svg\",\n          \"description\": \"Valve round right\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-round-up\",\n          \"path\": \"rtmaster/valves/valve-round-up.svg\",\n          \"description\": \"Valve round up\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-square-down\",\n          \"path\": \"rtmaster/valves/valve-square-down.svg\",\n          \"description\": \"Valve square down\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-square-left\",\n          \"path\": \"rtmaster/valves/valve-square-left.svg\",\n          \"description\": \"Valve square left\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-square-right\",\n          \"path\": \"rtmaster/valves/valve-square-right.svg\",\n          \"description\": \"Valve square right\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-square-up\",\n          \"path\": \"rtmaster/valves/valve-square-up.svg\",\n          \"description\": \"Valve square up\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-vertical\",\n          \"path\": \"rtmaster/valves/valve-vertical\",\n          \"description\": \"Valve vertical\"\n        }\n      ]\n    }\n  },\n  \"svgBuilderData\": {\n    \"elements\": [],\n    \"height\": \"100%\",\n    \"viewport\": {\n      \"height\": 1000,\n      \"width\": 1000,\n      \"x\": 0,\n      \"y\": 0\n    },\n    \"width\": \"100%\"\n  },\n  \"targets\": [\n    {\n      \"alias\": \"\",\n      \"groupBy\": [\n        {\n          \"params\": [\n            \"$__interval\"\n          ],\n          \"type\": \"time\"\n        },\n        {\n          \"params\": [\n            \"null\"\n          ],\n          \"type\": \"fill\"\n        }\n      ],\n      \"measurement\": \"mois_noho_sensors\",\n      \"orderByTime\": \"ASC\",\n      \"policy\": \"default\",\n      \"refId\": \"A\",\n      \"resultFormat\": \"time_series\",\n      \"select\": [\n        [\n          {\n            \"params\": [\n              \"*\"\n            ],\n            \"type\": \"field\"\n          },\n          {\n            \"params\": [],\n            \"type\": \"mean\"\n          }\n        ]\n      ],\n      \"tags\": []\n    }\n  ],\n  \"title\": \"IR-Sensor SVG-Pixmap\",\n  \"transparent\": true,\n  \"type\": \"marcuscalidus-svg-panel\",\n  \"useSVGBuilder\": false\n}",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "mois_noho_sensors",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "*"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "6x5 ds18b20 SVG-Pixmap",
+      "transparent": true,
+      "type": "marcuscalidus-svg-panel",
+      "useSVGBuilder": false
+    },
+    {
+      "aliasColors": {},
+      "cacheTimeout": null,
+      "datasource": "hiveeyes_27041c2a_8afd_4a1e_b3ae_44233fa1f06b",
+      "doInit": {},
+      "format": "short",
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 9,
+        "y": 0
+      },
+      "handleMetric": {},
+      "id": 12,
+      "interval": null,
+      "js_code": "function hslToRgb(h, s, l){\n    var r, g, b;\n    if(s === 0){\n        r = g = b = l; // achromatic\n\n    }else{\n        var hue2rgb = function hue2rgb(p, q, t){\n            if(t < 0) t += 1;\n            if(t > 1) t -= 1;\n            if(t < 1/6) return p + (q - p) * 6 * t;\n            if(t < 1/2) return q;\n            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;\n            return p;\n        }\n\n        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;\n        var p = 2 * l - q;\n        r = hue2rgb(p, q, h + 1/3);\n        g = hue2rgb(p, q, h);\n        b = hue2rgb(p, q, h - 1/3);\n    }\n\n    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];\n}\n\nfunction rangePercentage (input, range_min, range_max, range_2ndMax){\n    var percentage = ((input - range_min) * 100) / (range_max - range_min);\n    \n    if (percentage > 100) {\n        if (typeof range_2ndMax !== 'undefined'){\n            percentage = ((range_2ndMax - input) * 100) / (range_2ndMax - range_max);\n            if (percentage < 0) {\n                percentage = 0;\n            }\n\n        } else {\n            percentage = 100;\n        }\n    } else if (percentage < 0){\n        percentage = 0;\n    }\n\n    var percent = (percentage / 100)\n    return percent;\n}\n\nfunction percentageToHsl(percentage, hue0, hue1) {\n    var hue = (percentage * (hue1 - hue0)) + hue0;\n    return 'hsl(' + hue + ', 100%, 50%)';\n}\n\nfunction percentageToHslDark(percentage, hue0, hue1) {\n    var hue = (percentage * (hue1 - hue0)) + hue0;\n    return 'hsl(' + hue + ', 100%, 40%)';\n}\n\nfunction celsiusToColor(celsius){\n    var celsiusColor = percentageToHsl( rangePercentage( celsius, -20, 40), 0.55, 0);\n    return celsiusColor;\n}\n\nfunction celsiusToColorDark(celsius){\n    var celsiusColor = percentageToHslDark( rangePercentage( celsius, -20, 40), 0.55, 0);\n    return celsiusColor;\n}\n\n\nvar S = Snap(svgnode);\n\n// 1\n\nvar rect_ir_1_1 = S.select(\"#temp-ir-1-1\");\nvar rect_ir_1_2 = S.select(\"#temp-ir-1-2\");\nvar rect_ir_1_3 = S.select(\"#temp-ir-1-3\");\nvar rect_ir_1_4 = S.select(\"#temp-ir-1-4\");\nvar rect_ir_1_5 = S.select(\"#temp-ir-1-5\");\n\nrect_ir_1_1.attr({\"fill\": celsiusToColor( ctrl.series[0].stats.avg ) });\nrect_ir_1_2.attr({\"fill\": celsiusToColor( ctrl.series[1].stats.avg ) });\nrect_ir_1_3.attr({\"fill\": celsiusToColor( ctrl.series[2].stats.avg ) });\nrect_ir_1_4.attr({\"fill\": celsiusToColor( ctrl.series[3].stats.avg ) });\nrect_ir_1_5.attr({\"fill\": celsiusToColor( ctrl.series[4].stats.avg ) });\n\nvar text_ir_1_1 = S.select(\"#tspan-1-1\");\nvar text_ir_1_2 = S.select(\"#tspan-1-2\");\nvar text_ir_1_3 = S.select(\"#tspan-1-3\");\nvar text_ir_1_4 = S.select(\"#tspan-1-4\");\nvar text_ir_1_5 = S.select(\"#tspan-1-5\");\n\ntext_ir_1_1.attr({\"#text\": Math.round(ctrl.series[0].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[0].stats.avg ) });\ntext_ir_1_2.attr({\"#text\": Math.round(ctrl.series[1].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[1].stats.avg ) });\ntext_ir_1_3.attr({\"#text\": Math.round(ctrl.series[2].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[2].stats.avg ) });\ntext_ir_1_4.attr({\"#text\": Math.round(ctrl.series[3].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[3].stats.avg ) });\ntext_ir_1_5.attr({\"#text\": Math.round(ctrl.series[4].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[4].stats.avg ) });\n\n\n// 2\n\nvar rect_ir_2_1 = S.select(\"#temp-ir-2-1\");\nvar rect_ir_2_2 = S.select(\"#temp-ir-2-2\");\nvar rect_ir_2_3 = S.select(\"#temp-ir-2-3\");\nvar rect_ir_2_4 = S.select(\"#temp-ir-2-4\");\nvar rect_ir_2_5 = S.select(\"#temp-ir-2-5\");\n\nrect_ir_2_1.attr({\"fill\": celsiusToColor( ctrl.series[5].stats.avg ) });\nrect_ir_2_2.attr({\"fill\": celsiusToColor( ctrl.series[6].stats.avg ) });\nrect_ir_2_3.attr({\"fill\": celsiusToColor( ctrl.series[7].stats.avg ) });\nrect_ir_2_4.attr({\"fill\": celsiusToColor( ctrl.series[8].stats.avg ) });\nrect_ir_2_5.attr({\"fill\": celsiusToColor( ctrl.series[9].stats.avg ) });\n\n\nvar text_ir_2_1 = S.select(\"#tspan-2-1\");\nvar text_ir_2_2 = S.select(\"#tspan-2-2\");\nvar text_ir_2_3 = S.select(\"#tspan-2-3\");\nvar text_ir_2_4 = S.select(\"#tspan-2-4\");\nvar text_ir_2_5 = S.select(\"#tspan-2-5\");\n\ntext_ir_2_1.attr({\"#text\": Math.round(ctrl.series[5].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[5].stats.avg ) });\ntext_ir_2_2.attr({\"#text\": Math.round(ctrl.series[6].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[6].stats.avg ) });\ntext_ir_2_3.attr({\"#text\": Math.round(ctrl.series[7].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[7].stats.avg ) });\ntext_ir_2_4.attr({\"#text\": Math.round(ctrl.series[8].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[8].stats.avg ) });\ntext_ir_2_5.attr({\"#text\": Math.round(ctrl.series[9].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[9].stats.avg ) });\n\n\n// 3\n\nvar rect_ir_3_1 = S.select(\"#temp-ir-3-1\");\nvar rect_ir_3_2 = S.select(\"#temp-ir-3-2\");\nvar rect_ir_3_3 = S.select(\"#temp-ir-3-3\");\nvar rect_ir_3_4 = S.select(\"#temp-ir-3-4\");\nvar rect_ir_3_5 = S.select(\"#temp-ir-3-5\");\n\nrect_ir_3_1.attr({\"fill\": celsiusToColor( ctrl.series[10].stats.avg ) });\nrect_ir_3_2.attr({\"fill\": celsiusToColor( ctrl.series[11].stats.avg ) });\nrect_ir_3_3.attr({\"fill\": celsiusToColor( ctrl.series[12].stats.avg ) });\nrect_ir_3_4.attr({\"fill\": celsiusToColor( ctrl.series[13].stats.avg ) });\nrect_ir_3_5.attr({\"fill\": celsiusToColor( ctrl.series[14].stats.avg ) });\n\nvar text_ir_3_1 = S.select(\"#tspan-3-1\");\nvar text_ir_3_2 = S.select(\"#tspan-3-2\");\nvar text_ir_3_3 = S.select(\"#tspan-3-3\");\nvar text_ir_3_4 = S.select(\"#tspan-3-4\");\nvar text_ir_3_5 = S.select(\"#tspan-3-5\");\n\ntext_ir_3_1.attr({\"#text\": Math.round(ctrl.series[10].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[10].stats.avg ) });\ntext_ir_3_2.attr({\"#text\": Math.round(ctrl.series[11].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[11].stats.avg ) });\ntext_ir_3_3.attr({\"#text\": Math.round(ctrl.series[12].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[12].stats.avg ) });\ntext_ir_3_4.attr({\"#text\": Math.round(ctrl.series[13].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[13].stats.avg ) });\ntext_ir_3_5.attr({\"#text\": Math.round(ctrl.series[14].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[14].stats.avg ) });\n\n\n// 4\n\nvar rect_ir_4_1 = S.select(\"#temp-ir-4-1\");\nvar rect_ir_4_2 = S.select(\"#temp-ir-4-2\");\nvar rect_ir_4_3 = S.select(\"#temp-ir-4-3\");\nvar rect_ir_4_4 = S.select(\"#temp-ir-4-4\");\nvar rect_ir_4_5 = S.select(\"#temp-ir-4-5\");\n\nrect_ir_4_1.attr({\"fill\": celsiusToColor( ctrl.series[15].stats.avg ) });\nrect_ir_4_2.attr({\"fill\": celsiusToColor( ctrl.series[16].stats.avg ) });\nrect_ir_4_3.attr({\"fill\": celsiusToColor( ctrl.series[17].stats.avg ) });\nrect_ir_4_4.attr({\"fill\": celsiusToColor( ctrl.series[18].stats.avg ) });\nrect_ir_4_5.attr({\"fill\": celsiusToColor( ctrl.series[19].stats.avg ) });\n\n\nvar text_ir_4_1 = S.select(\"#tspan-4-1\");\nvar text_ir_4_2 = S.select(\"#tspan-4-2\");\nvar text_ir_4_3 = S.select(\"#tspan-4-3\");\nvar text_ir_4_4 = S.select(\"#tspan-4-4\");\nvar text_ir_4_5 = S.select(\"#tspan-4-5\");\n\ntext_ir_4_1.attr({\"#text\": Math.round(ctrl.series[15].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[15].stats.avg ) });\ntext_ir_4_2.attr({\"#text\": Math.round(ctrl.series[16].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[16].stats.avg ) });\ntext_ir_4_3.attr({\"#text\": Math.round(ctrl.series[17].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[17].stats.avg ) });\ntext_ir_4_4.attr({\"#text\": Math.round(ctrl.series[18].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[18].stats.avg ) });\ntext_ir_4_5.attr({\"#text\": Math.round(ctrl.series[19].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[19].stats.avg ) });\n\n\n// 5\n\nvar rect_ir_5_1 = S.select(\"#temp-ir-5-1\");\nvar rect_ir_5_2 = S.select(\"#temp-ir-5-2\");\nvar rect_ir_5_3 = S.select(\"#temp-ir-5-3\");\nvar rect_ir_5_4 = S.select(\"#temp-ir-5-4\");\nvar rect_ir_5_5 = S.select(\"#temp-ir-5-5\");\n\nrect_ir_5_1.attr({\"fill\": celsiusToColor( ctrl.series[20].stats.avg ) });\nrect_ir_5_2.attr({\"fill\": celsiusToColor( ctrl.series[21].stats.avg ) });\nrect_ir_5_3.attr({\"fill\": celsiusToColor( ctrl.series[22].stats.avg ) });\nrect_ir_5_4.attr({\"fill\": celsiusToColor( ctrl.series[23].stats.avg ) });\nrect_ir_5_5.attr({\"fill\": celsiusToColor( ctrl.series[24].stats.avg ) });\n\n\nvar text_ir_5_1 = S.select(\"#tspan-5-1\");\nvar text_ir_5_2 = S.select(\"#tspan-5-2\");\nvar text_ir_5_3 = S.select(\"#tspan-5-3\");\nvar text_ir_5_4 = S.select(\"#tspan-5-4\");\nvar text_ir_5_5 = S.select(\"#tspan-5-5\");\n\ntext_ir_5_1.attr({\"#text\": Math.round(ctrl.series[20].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[20].stats.avg ) });\ntext_ir_5_2.attr({\"#text\": Math.round(ctrl.series[21].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[21].stats.avg ) });\ntext_ir_5_3.attr({\"#text\": Math.round(ctrl.series[22].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[22].stats.avg ) });\ntext_ir_5_4.attr({\"#text\": Math.round(ctrl.series[23].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[23].stats.avg ) });\ntext_ir_5_5.attr({\"#text\": Math.round(ctrl.series[24].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[24].stats.avg ) });;\n\n\n// 6\n\nvar rect_ir_6_1 = S.select(\"#temp-ir-6-1\");\nvar rect_ir_6_2 = S.select(\"#temp-ir-6-2\");\nvar rect_ir_6_3 = S.select(\"#temp-ir-6-3\");\nvar rect_ir_6_4 = S.select(\"#temp-ir-6-4\");\nvar rect_ir_6_5 = S.select(\"#temp-ir-6-5\");\n\nrect_ir_6_1.attr({\"fill\": celsiusToColor( ctrl.series[25].stats.avg ) });\nrect_ir_6_2.attr({\"fill\": celsiusToColor( ctrl.series[26].stats.avg ) });\nrect_ir_6_3.attr({\"fill\": celsiusToColor( ctrl.series[27].stats.avg ) });\nrect_ir_6_4.attr({\"fill\": celsiusToColor( ctrl.series[28].stats.avg ) });\nrect_ir_6_5.attr({\"fill\": celsiusToColor( ctrl.series[29].stats.avg ) });\n\n\nvar text_ir_6_1 = S.select(\"#tspan-6-1\");\nvar text_ir_6_2 = S.select(\"#tspan-6-2\");\nvar text_ir_6_3 = S.select(\"#tspan-6-3\");\nvar text_ir_6_4 = S.select(\"#tspan-6-4\");\nvar text_ir_6_5 = S.select(\"#tspan-6-5\");\n\ntext_ir_6_1.attr({\"#text\": Math.round(ctrl.series[25].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[25].stats.avg ) });\ntext_ir_6_2.attr({\"#text\": Math.round(ctrl.series[26].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[26].stats.avg ) });\ntext_ir_6_3.attr({\"#text\": Math.round(ctrl.series[27].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[27].stats.avg ) });\ntext_ir_6_4.attr({\"#text\": Math.round(ctrl.series[28].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[28].stats.avg ) });\ntext_ir_6_5.attr({\"#text\": Math.round(ctrl.series[29].stats.avg) + \"°C\", \"fill\": celsiusToColorDark( ctrl.series[29].stats.avg ) });\n\n\n",
+      "js_init_code": "",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "repositories": {
+        "rtmaster": {
+          "description": "simple examples",
+          "items": [
+            {
+              "category": "arrows",
+              "description": "Arrow facing up",
+              "name": "arrow-up",
+              "path": "rtmaster/arrows/arrow-up.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing down",
+              "name": "arrow-down",
+              "path": "rtmaster/arrows/arrow-down.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing right",
+              "name": "arrow-right",
+              "path": "rtmaster/arrows/arrow-right.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing left",
+              "name": "arrow-left",
+              "path": "rtmaster/arrows/arrow-left.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing up right",
+              "name": "arrow-up-right",
+              "path": "rtmaster/arrows/arrow-up-right.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing up left",
+              "name": "arrow-up-left",
+              "path": "rtmaster/arrows/arrow-up-left.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing down left",
+              "name": "arrow-down-left",
+              "path": "rtmaster/arrows/arrow-down-left.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing down right",
+              "name": "arrow-down-right",
+              "path": "rtmaster/arrows/arrow-down-right.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing left right",
+              "name": "arrow-left-right",
+              "path": "rtmaster/arrows/arrow-left-right.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing up down",
+              "name": "arrow-up-down",
+              "path": "rtmaster/arrows/arrow-up-down.svg"
+            },
+            {
+              "category": "arrows",
+              "description": "Arrow facing up down left right",
+              "name": "arrow-up-down-left-right",
+              "path": "rtmaster/arrows/arrow-up-down-left-right.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Factory",
+              "name": "factory",
+              "path": "rtmaster/facilities/factory.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Jackup",
+              "name": "jackup",
+              "path": "rtmaster/facilities/jackup.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Plant",
+              "name": "plant",
+              "path": "rtmaster/facilities/plant.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Semisub",
+              "name": "semisub",
+              "path": "rtmaster/facilities/semisub.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Ship",
+              "name": "ship",
+              "path": "rtmaster/facilities/ship.svg"
+            },
+            {
+              "category": "facilities",
+              "description": "Truck",
+              "name": "truck",
+              "path": "rtmaster/facilities/truck.svg"
+            },
+            {
+              "category": "indicators",
+              "description": "Light Bulb",
+              "name": "light-bulb",
+              "path": "rtmaster/indicators/light-bulb.svg"
+            },
+            {
+              "category": "indicators",
+              "description": "Green Light Indicator",
+              "name": "light-green",
+              "path": "rtmaster/indicators/light-green.svg"
+            },
+            {
+              "category": "indicators",
+              "description": "Orange Light Indicator",
+              "name": "light-orange",
+              "path": "rtmaster/indicators/light-orange.svg"
+            },
+            {
+              "category": "indicators",
+              "description": "Red Light Indicator",
+              "name": "light-red",
+              "path": "rtmaster/indicators/light-red.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Compressor",
+              "name": "compressor",
+              "path": "rtmaster/industrial/compressor.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Derrick",
+              "name": "derrick",
+              "path": "rtmaster/industrial/derrick.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Heat Exchanger",
+              "name": "heatexchanger",
+              "path": "rtmaster/industrial/heatexchanger.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Motor",
+              "name": "motor",
+              "path": "rtmaster/industrial/motor.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Pump",
+              "name": "pump",
+              "path": "rtmaster/industrial/pump.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Horizontal Tank",
+              "name": "tank-horizontal",
+              "path": "rtmaster/industrial/tank-horizontal.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Vertical Tank",
+              "name": "tank-vertical",
+              "path": "rtmaster/industrial/tank-vertical.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Turbine",
+              "name": "turbine",
+              "path": "rtmaster/industrial/turbine.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Horizontal Vessel",
+              "name": "vessel-horizontal",
+              "path": "rtmaster/industrial/vessel-horizontal.svg"
+            },
+            {
+              "category": "industrial",
+              "description": "Vertical Vessel",
+              "name": "vessel-vertical",
+              "path": "rtmaster/industrial/vessel-vertical.svg"
+            },
+            {
+              "category": "letters",
+              "description": "A",
+              "name": "A",
+              "path": "rtmaster/letters/letter-a.svg"
+            },
+            {
+              "category": "letters",
+              "description": "B",
+              "name": "B",
+              "path": "rtmaster/letters/letter-b.svg"
+            },
+            {
+              "category": "letters",
+              "description": "C",
+              "name": "C",
+              "path": "rtmaster/letters/letter-c.svg"
+            },
+            {
+              "category": "letters",
+              "description": "D",
+              "name": "D",
+              "path": "rtmaster/letters/letter-d.svg"
+            },
+            {
+              "category": "letters",
+              "description": "E",
+              "name": "E",
+              "path": "rtmaster/letters/letter-e.svg"
+            },
+            {
+              "category": "letters",
+              "description": "F",
+              "name": "F",
+              "path": "rtmaster/letters/letter-f.svg"
+            },
+            {
+              "category": "letters",
+              "description": "G",
+              "name": "G",
+              "path": "rtmaster/letters/letter-g.svg"
+            },
+            {
+              "category": "letters",
+              "description": "H",
+              "name": "H",
+              "path": "rtmaster/letters/letter-h.svg"
+            },
+            {
+              "category": "letters",
+              "description": "I",
+              "name": "I",
+              "path": "rtmaster/letters/letter-i.svg"
+            },
+            {
+              "category": "letters",
+              "description": "J",
+              "name": "J",
+              "path": "rtmaster/letters/letter-j.svg"
+            },
+            {
+              "category": "letters",
+              "description": "K",
+              "name": "K",
+              "path": "rtmaster/letters/letter-k.svg"
+            },
+            {
+              "category": "letters",
+              "description": "L",
+              "name": "L",
+              "path": "rtmaster/letters/letter-l.svg"
+            },
+            {
+              "category": "letters",
+              "description": "M",
+              "name": "M",
+              "path": "rtmaster/letters/letter-m.svg"
+            },
+            {
+              "category": "letters",
+              "description": "N",
+              "name": "N",
+              "path": "rtmaster/letters/letter-n.svg"
+            },
+            {
+              "category": "letters",
+              "description": "O",
+              "name": "O",
+              "path": "rtmaster/letters/letter-o.svg"
+            },
+            {
+              "category": "letters",
+              "description": "P",
+              "name": "P",
+              "path": "rtmaster/letters/letter-p.svg"
+            },
+            {
+              "category": "letters",
+              "description": "Q",
+              "name": "Q",
+              "path": "rtmaster/letters/letter-q.svg"
+            },
+            {
+              "category": "letters",
+              "description": "R",
+              "name": "R",
+              "path": "rtmaster/letters-letter-r.svg"
+            },
+            {
+              "category": "letters",
+              "description": "S",
+              "name": "S",
+              "path": "rtmaster/letters/letter-s.svg"
+            },
+            {
+              "category": "letters",
+              "description": "T",
+              "name": "T",
+              "path": "rtmaster/letters/letter-t.svg"
+            },
+            {
+              "category": "letters",
+              "description": "U",
+              "name": "U",
+              "path": "rtmaster/letters/letter-u.svg"
+            },
+            {
+              "category": "letters",
+              "description": "V",
+              "name": "V",
+              "path": "rtmaster/letters/letter-v.svg"
+            },
+            {
+              "category": "letters",
+              "description": "W",
+              "name": "W",
+              "path": "rtmaster/letters/letter-w.svg"
+            },
+            {
+              "category": "letters",
+              "description": "X",
+              "name": "X",
+              "path": "rtmaster/letters/letter-x.svg"
+            },
+            {
+              "category": "letters",
+              "description": "Y",
+              "name": "Y",
+              "path": "rtmaster/letters/letter-y.svg"
+            },
+            {
+              "category": "letters",
+              "description": "Z",
+              "name": "Z",
+              "path": "rtmaster/letters/letter-z.svg"
+            },
+            {
+              "category": "meters",
+              "description": "Laboratory Flask",
+              "name": "flask",
+              "path": "rtmaster/meters/flask.svg"
+            },
+            {
+              "category": "meters",
+              "description": "Flowmeter",
+              "name": "flowmeter",
+              "path": "rtmaster/meters/flowmeter.svg"
+            },
+            {
+              "category": "meters",
+              "description": "Gauge",
+              "name": "gauge",
+              "path": "rtmaster/meters/gauge.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "0",
+              "name": "0",
+              "path": "rtmaster/numbers/number-0.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "1",
+              "name": "1",
+              "path": "rtmaster/numbers/number-1.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "2",
+              "name": "2",
+              "path": "rtmaster/numbers/number-2.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "3",
+              "name": "3",
+              "path": "rtmaster/numbers/number-3.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "4",
+              "name": "4",
+              "path": "rtmaster/numbers/number-4.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "5",
+              "name": "5",
+              "path": "rtmaster/numbers/number-5.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "6",
+              "name": "6",
+              "path": "rtmaster/numbers/number-6.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "7",
+              "name": "7",
+              "path": "rtmaster/numbers/number-7.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "8",
+              "name": "8",
+              "path": "rtmaster/numbers/number-8.svg"
+            },
+            {
+              "category": "numbers",
+              "description": "9",
+              "name": "9",
+              "path": "rtmaster/numbers/number-9.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve down",
+              "name": "pipe-curve-down",
+              "path": "rtmaster/pipes/pipe-curve-down.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve down left",
+              "name": "pipe-curve-down-left",
+              "path": "rtmaster/pipes/pipe-curve-down-left.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve down right",
+              "name": "pipe-curve-down-right",
+              "path": "rtmaster/pipes/pipe-curve-down-right.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve left",
+              "name": "pipe-curve-left",
+              "path": "rtmaster/pipes/pipe-curve-left.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve right",
+              "name": "pipe-curve-right",
+              "path": "rtmaster/pipes/pipe-curve-right.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve up",
+              "name": "pipe-curve-up",
+              "path": "rtmaster/pipes/pipe-curve-up.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve up left",
+              "name": "pipe-curve-up-left",
+              "path": "rtmaster/pipes/pipe-curve-up-left.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe curve up right",
+              "name": "pipe-curve-up-right",
+              "path": "rtmaster/pipes/pipe-curve-up-right.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe diagonal left",
+              "name": "pipe-diagonal-left",
+              "path": "rtmaster/pipes/pipe-diagonal-left.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe diagonal right",
+              "name": "pipe-diagonal-right",
+              "path": "rtmaster/pipes/pipe-diagonal-right.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe flange horizontal",
+              "name": "pipe-flange-horizontal",
+              "path": "rtmaster/pipes/pipe-flange-horizontal.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe flange intersection",
+              "name": "pipe-flange-intersection",
+              "path": "rtmaster/pipes/pipe-flange-intersection.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe flange vertical",
+              "name": "pipe-flange-vertical",
+              "path": "rtmaster/pipes/pipe-flange-vertical.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe horizontal",
+              "name": "pipe-horizontal",
+              "path": "rtmaster/pipes/pipe-horizontal.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe tee down",
+              "name": "pipe-tee-down",
+              "path": "rtmaster/pipes/pipe-tee-down.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe tee left",
+              "name": "pipe-tee-left",
+              "path": "rtmaster/pipes/pipe-tee-left.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe tee right",
+              "name": "pipe-tee-right",
+              "path": "rtmaster/pipes/pipe-tee-right.svg"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe tee up",
+              "name": "pipe-tee-up",
+              "path": "rtmaster/pipes/pipe-tee-up"
+            },
+            {
+              "category": "pipes",
+              "description": "Pipe vertical",
+              "name": "pipe-vertical",
+              "path": "rtmaster/pipes/pipe-vertical.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Circle",
+              "name": "circle",
+              "path": "rtmaster/shapes/circle.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Gear",
+              "name": "gear",
+              "path": "rtmaster/shapes/gear.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line horizontal",
+              "name": "line-horizontal",
+              "path": "rtmaster/shapes/line-horizontal.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line horizontal arrow left",
+              "name": "line-horizontal-arrow-left",
+              "path": "rtmaster/shapes/line-horizontal-arrow-left.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line horizontal arrow right",
+              "name": "line-horizontal-arrow-right",
+              "path": "rtmaster/shapes/line-horizontal-arrow-right.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line vertical",
+              "name": "line-vertical",
+              "path": "rtmaster/shapes/line-vertical.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line vertical arrow down",
+              "name": "line-vertical-arrow-down",
+              "path": "rtmaster/shapes/line-vertical-arrow-down.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Line vertical arrow up",
+              "name": "line-vertical-arrow-up",
+              "path": "rtmaster/shapes/line-vertical-arrow-up.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Square",
+              "name": "square",
+              "path": "rtmaster/shapes/square.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Triangle down",
+              "name": "triangle-down",
+              "path": "rtmaster/shapes/triangle-down.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Triangle left",
+              "name": "triangle-left",
+              "path": "rtmaster/shapes/triangle-left.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Triangle right",
+              "name": "triangle-right",
+              "path": "rtmaster/shapes/triangle-right.svg"
+            },
+            {
+              "category": "shapes",
+              "description": "Triangle-up",
+              "name": "triangle-up",
+              "path": "rtmaster/shapes/triangle-up.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve Horizontal",
+              "name": "valve-horizontal",
+              "path": "rtmaster/valves/valve-horizontal.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve left right",
+              "name": "valve-left-right",
+              "path": "rtmaster/valves/valve-left-right.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve round down",
+              "name": "valve-round-down",
+              "path": "rtmaster/valves/valve-round-down.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve round left",
+              "name": "valve-round-left",
+              "path": "rtmaster/valves/valve-round-left.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve round right",
+              "name": "valve-round-right",
+              "path": "rtmaster/valves/valve-round-right.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve round up",
+              "name": "valve-round-up",
+              "path": "rtmaster/valves/valve-round-up.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve square down",
+              "name": "valve-square-down",
+              "path": "rtmaster/valves/valve-square-down.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve square left",
+              "name": "valve-square-left",
+              "path": "rtmaster/valves/valve-square-left.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve square right",
+              "name": "valve-square-right",
+              "path": "rtmaster/valves/valve-square-right.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve square up",
+              "name": "valve-square-up",
+              "path": "rtmaster/valves/valve-square-up.svg"
+            },
+            {
+              "category": "valves",
+              "description": "Valve vertical",
+              "name": "valve-vertical",
+              "path": "rtmaster/valves/valve-vertical"
+            }
+          ],
+          "license": "Apache 2.0",
+          "url": "https://github.com/rtmaster"
+        }
+      },
+      "svgBuilderData": {
+        "elements": [],
+        "height": "100%",
+        "viewport": {
+          "height": 1000,
+          "width": 1000,
+          "x": 0,
+          "y": 0
+        },
+        "width": "100%"
+      },
+      "svg_data": "{\n  \"aliasColors\": {},\n  \"cacheTimeout\": null,\n  \"datasource\": \"hiveeyes_27041c2a_8afd_4a1e_b3ae_44233fa1f06b\",<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" width=\"100%\" height=\"100%\" version=\"1.1\" style=\"shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd\" viewBox=\"25 0 100 100\">\n <defs>\n  \n </defs>\n <g id=\"Ebene_x0020_1\">\n \n  <!-- 1st row, \"px\" 1 to 6 -->\n  \n  <rect id=\"temp-ir-1-1\" x=\"0\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-1-1\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"10%\" x=\"15\" id=\"tspan-1-1\">-99</tspan></text>\n\n  <rect id=\"temp-ir-2-1\" x=\"30\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-2-1\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"10%\" x=\"45\" id=\"tspan-2-1\">-99</tspan></text>\n\n  <rect id=\"temp-ir-3-1\" x=\"60\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-3-1\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"10%\" x=\"75\" id=\"tspan-3-1\">-99</tspan></text>\n\n  <rect id=\"temp-ir-4-1\" x=\"90\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-4-1\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"10%\" x=\"105\" id=\"tspan-4-1\">-99</tspan></text>\n\n  <rect id=\"temp-ir-5-1\" x=\"120\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-5-1\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"10%\" x=\"135\" id=\"tspan-5-1\">-99</tspan></text>\n\n  <rect id=\"temp-ir-6-1\" x=\"150\" y=\"000\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-6-1\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"10%\" x=\"165\" id=\"tspan-6-1\">-99</tspan></text>\n\n \n  <!-- 2nd row, \"px\" 1 to 6 -->\n  \n  <rect id=\"temp-ir-1-2\" x=\"0\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-1-2\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"30%\" x=\"15\" id=\"tspan-1-2\">-99</tspan></text>\n\n  <rect id=\"temp-ir-2-2\" x=\"30\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-2-2\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"30%\" x=\"45\" id=\"tspan-2-2\">-99</tspan></text>\n\n  <rect id=\"temp-ir-3-2\" x=\"60\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-3-2\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"30%\" x=\"75\" id=\"tspan-3-2\">-99</tspan></text>\n\n  <rect id=\"temp-ir-4-2\" x=\"90\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-4-2\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"30%\" x=\"105\" id=\"tspan-4-2\">-99</tspan></text>\n\n  <rect id=\"temp-ir-5-2\" x=\"120\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-5-2\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"30%\" x=\"135\" id=\"tspan-5-2\">-99</tspan></text>\n\n  <rect id=\"temp-ir-6-2\" x=\"150\" y=\"20\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-6-2\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"30%\" x=\"165\" id=\"tspan-6-2\">-99</tspan></text>\n\n\n  <!-- 3rd row, \"px\" 1 to 6 -->\n  \n  <rect id=\"temp-ir-1-3\" x=\"0\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-1-3\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"50%\" x=\"15\" id=\"tspan-1-3\">-99</tspan></text>\n\n  <rect id=\"temp-ir-2-3\" x=\"30\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-2-3\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"50%\" x=\"45\" id=\"tspan-2-3\">-99</tspan></text>\n\n  <rect id=\"temp-ir-3-3\" x=\"60\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-3-3\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"50%\" x=\"75\" id=\"tspan-3-3\">-99</tspan></text>\n\n  <rect id=\"temp-ir-4-3\" x=\"90\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-4-3\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"50%\" x=\"105\" id=\"tspan-4-3\">-99</tspan></text>\n\n  <rect id=\"temp-ir-5-3\" x=\"120\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-5-3\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"50%\" x=\"135\" id=\"tspan-5-3\">-99</tspan></text>\n      \n  <rect id=\"temp-ir-6-3\" x=\"150\" y=\"40\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-6-3\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"50%\" x=\"165\" id=\"tspan-6-3\">-99</tspan></text>\n\n\n  <!-- 4th row, \"px\" 1 to 6 -->\n  \n  <rect id=\"temp-ir-1-4\" x=\"0\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-1-4\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"70%\" x=\"15\" id=\"tspan-1-4\">-99</tspan></text>\n\n  <rect id=\"temp-ir-2-4\" x=\"30\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-2-4\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"70%\" x=\"45\" id=\"tspan-2-4\">-99</tspan></text>\n\n  <rect id=\"temp-ir-3-4\" x=\"60\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-3-4\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"70%\" x=\"75\" id=\"tspan-3-4\">-99</tspan></text>\n\n  <rect id=\"temp-ir-4-4\" x=\"90\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-4-4\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"70%\" x=\"105\" id=\"tspan-4-4\">-99</tspan></text>\n\n  <rect id=\"temp-ir-5-4\" x=\"120\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-5-4\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"70%\" x=\"135\" id=\"tspan-5-4\">-99</tspan></text>\n      \n  <rect id=\"temp-ir-6-4\" x=\"150\" y=\"60\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-6-4\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"70%\" x=\"165\" id=\"tspan-6-4\">-99</tspan></text>\n\n\n  <!-- 5th row, \"px\" 1 to 6 -->\n  \n  <rect id=\"temp-ir-1-5\" x=\"0\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-1-5\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"90%\" x=\"15\" id=\"tspan-1-5\">-99</tspan></text>\n\n  <rect id=\"temp-ir-2-5\" x=\"30\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-2-5\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"90%\" x=\"45\" id=\"tspan-2-5\">-99</tspan></text>\n\n  <rect id=\"temp-ir-3-5\" x=\"60\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-3-5\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"90%\" x=\"75\" id=\"tspan-3-5\">-99</tspan></text>\n\n  <rect id=\"temp-ir-4-5\" x=\"90\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-4-5\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"90%\" x=\"105\" id=\"tspan-4-5\">-99</tspan></text>\n\n  <rect id=\"temp-ir-5-5\" x=\"120\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-5-5\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"90%\" x=\"135\" id=\"tspan-5-5\">-99</tspan></text>\n\n  <rect id=\"temp-ir-6-5\" x=\"150\" y=\"80\" width=\"30\" height=\"20%\"/>\n  <text id=\"t-6-5\" xml:space=\"preserve\" style=\"font-size: 35px;font-family:'Sans';fill:#000000;\">\n      <tspan style=\"font-size:11%;text-align:center;text-anchor:middle\" y=\"90%\" x=\"165\" id=\"tspan-6-5\">-99</tspan></text>\n\n </g>\n</svg>\n\n  \"doInit\": {},\n  \"format\": \"short\",\n  \"gridPos\": {\n    \"h\": 13,\n    \"w\": 10,\n    \"x\": 14,\n    \"y\": 1\n  },\n  \"handleMetric\": {},\n  \"id\": 4,\n  \"interval\": null,\n\n  \"js_init_code\": \"\",\n  \"links\": [],\n  \"maxDataPoints\": 3,\n  \"nullPointMode\": \"connected\",\n  \"repositories\": {\n    \"rtmaster\": {\n      \"url\": \"https://github.com/rtmaster\",\n      \"description\": \"simple examples\",\n      \"license\": \"Apache 2.0\",\n      \"items\": [\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-up\",\n          \"path\": \"rtmaster/arrows/arrow-up.svg\",\n          \"description\": \"Arrow facing up\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-down\",\n          \"path\": \"rtmaster/arrows/arrow-down.svg\",\n          \"description\": \"Arrow facing down\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-right\",\n          \"path\": \"rtmaster/arrows/arrow-right.svg\",\n          \"description\": \"Arrow facing right\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-left\",\n          \"path\": \"rtmaster/arrows/arrow-left.svg\",\n          \"description\": \"Arrow facing left\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-up-right\",\n          \"path\": \"rtmaster/arrows/arrow-up-right.svg\",\n          \"description\": \"Arrow facing up right\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-up-left\",\n          \"path\": \"rtmaster/arrows/arrow-up-left.svg\",\n          \"description\": \"Arrow facing up left\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-down-left\",\n          \"path\": \"rtmaster/arrows/arrow-down-left.svg\",\n          \"description\": \"Arrow facing down left\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-down-right\",\n          \"path\": \"rtmaster/arrows/arrow-down-right.svg\",\n          \"description\": \"Arrow facing down right\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-left-right\",\n          \"path\": \"rtmaster/arrows/arrow-left-right.svg\",\n          \"description\": \"Arrow facing left right\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-up-down\",\n          \"path\": \"rtmaster/arrows/arrow-up-down.svg\",\n          \"description\": \"Arrow facing up down\"\n        },\n        {\n          \"category\": \"arrows\",\n          \"name\": \"arrow-up-down-left-right\",\n          \"path\": \"rtmaster/arrows/arrow-up-down-left-right.svg\",\n          \"description\": \"Arrow facing up down left right\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"factory\",\n          \"path\": \"rtmaster/facilities/factory.svg\",\n          \"description\": \"Factory\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"jackup\",\n          \"path\": \"rtmaster/facilities/jackup.svg\",\n          \"description\": \"Jackup\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"plant\",\n          \"path\": \"rtmaster/facilities/plant.svg\",\n          \"description\": \"Plant\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"semisub\",\n          \"path\": \"rtmaster/facilities/semisub.svg\",\n          \"description\": \"Semisub\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"ship\",\n          \"path\": \"rtmaster/facilities/ship.svg\",\n          \"description\": \"Ship\"\n        },\n        {\n          \"category\": \"facilities\",\n          \"name\": \"truck\",\n          \"path\": \"rtmaster/facilities/truck.svg\",\n          \"description\": \"Truck\"\n        },\n        {\n          \"category\": \"indicators\",\n          \"name\": \"light-bulb\",\n          \"path\": \"rtmaster/indicators/light-bulb.svg\",\n          \"description\": \"Light Bulb\"\n        },\n        {\n          \"category\": \"indicators\",\n          \"name\": \"light-green\",\n          \"path\": \"rtmaster/indicators/light-green.svg\",\n          \"description\": \"Green Light Indicator\"\n        },\n        {\n          \"category\": \"indicators\",\n          \"name\": \"light-orange\",\n          \"path\": \"rtmaster/indicators/light-orange.svg\",\n          \"description\": \"Orange Light Indicator\"\n        },\n        {\n          \"category\": \"indicators\",\n          \"name\": \"light-red\",\n          \"path\": \"rtmaster/indicators/light-red.svg\",\n          \"description\": \"Red Light Indicator\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"compressor\",\n          \"path\": \"rtmaster/industrial/compressor.svg\",\n          \"description\": \"Compressor\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"derrick\",\n          \"path\": \"rtmaster/industrial/derrick.svg\",\n          \"description\": \"Derrick\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"heatexchanger\",\n          \"path\": \"rtmaster/industrial/heatexchanger.svg\",\n          \"description\": \"Heat Exchanger\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"motor\",\n          \"path\": \"rtmaster/industrial/motor.svg\",\n          \"description\": \"Motor\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"pump\",\n          \"path\": \"rtmaster/industrial/pump.svg\",\n          \"description\": \"Pump\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"tank-horizontal\",\n          \"path\": \"rtmaster/industrial/tank-horizontal.svg\",\n          \"description\": \"Horizontal Tank\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"tank-vertical\",\n          \"path\": \"rtmaster/industrial/tank-vertical.svg\",\n          \"description\": \"Vertical Tank\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"turbine\",\n          \"path\": \"rtmaster/industrial/turbine.svg\",\n          \"description\": \"Turbine\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"vessel-horizontal\",\n          \"path\": \"rtmaster/industrial/vessel-horizontal.svg\",\n          \"description\": \"Horizontal Vessel\"\n        },\n        {\n          \"category\": \"industrial\",\n          \"name\": \"vessel-vertical\",\n          \"path\": \"rtmaster/industrial/vessel-vertical.svg\",\n          \"description\": \"Vertical Vessel\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"A\",\n          \"path\": \"rtmaster/letters/letter-a.svg\",\n          \"description\": \"A\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"B\",\n          \"path\": \"rtmaster/letters/letter-b.svg\",\n          \"description\": \"B\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"C\",\n          \"path\": \"rtmaster/letters/letter-c.svg\",\n          \"description\": \"C\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"D\",\n          \"path\": \"rtmaster/letters/letter-d.svg\",\n          \"description\": \"D\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"E\",\n          \"path\": \"rtmaster/letters/letter-e.svg\",\n          \"description\": \"E\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"F\",\n          \"path\": \"rtmaster/letters/letter-f.svg\",\n          \"description\": \"F\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"G\",\n          \"path\": \"rtmaster/letters/letter-g.svg\",\n          \"description\": \"G\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"H\",\n          \"path\": \"rtmaster/letters/letter-h.svg\",\n          \"description\": \"H\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"I\",\n          \"path\": \"rtmaster/letters/letter-i.svg\",\n          \"description\": \"I\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"J\",\n          \"path\": \"rtmaster/letters/letter-j.svg\",\n          \"description\": \"J\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"K\",\n          \"path\": \"rtmaster/letters/letter-k.svg\",\n          \"description\": \"K\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"L\",\n          \"path\": \"rtmaster/letters/letter-l.svg\",\n          \"description\": \"L\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"M\",\n          \"path\": \"rtmaster/letters/letter-m.svg\",\n          \"description\": \"M\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"N\",\n          \"path\": \"rtmaster/letters/letter-n.svg\",\n          \"description\": \"N\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"O\",\n          \"path\": \"rtmaster/letters/letter-o.svg\",\n          \"description\": \"O\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"P\",\n          \"path\": \"rtmaster/letters/letter-p.svg\",\n          \"description\": \"P\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"Q\",\n          \"path\": \"rtmaster/letters/letter-q.svg\",\n          \"description\": \"Q\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"R\",\n          \"path\": \"rtmaster/letters-letter-r.svg\",\n          \"description\": \"R\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"S\",\n          \"path\": \"rtmaster/letters/letter-s.svg\",\n          \"description\": \"S\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"T\",\n          \"path\": \"rtmaster/letters/letter-t.svg\",\n          \"description\": \"T\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"U\",\n          \"path\": \"rtmaster/letters/letter-u.svg\",\n          \"description\": \"U\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"V\",\n          \"path\": \"rtmaster/letters/letter-v.svg\",\n          \"description\": \"V\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"W\",\n          \"path\": \"rtmaster/letters/letter-w.svg\",\n          \"description\": \"W\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"X\",\n          \"path\": \"rtmaster/letters/letter-x.svg\",\n          \"description\": \"X\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"Y\",\n          \"path\": \"rtmaster/letters/letter-y.svg\",\n          \"description\": \"Y\"\n        },\n        {\n          \"category\": \"letters\",\n          \"name\": \"Z\",\n          \"path\": \"rtmaster/letters/letter-z.svg\",\n          \"description\": \"Z\"\n        },\n        {\n          \"category\": \"meters\",\n          \"name\": \"flask\",\n          \"path\": \"rtmaster/meters/flask.svg\",\n          \"description\": \"Laboratory Flask\"\n        },\n        {\n          \"category\": \"meters\",\n          \"name\": \"flowmeter\",\n          \"path\": \"rtmaster/meters/flowmeter.svg\",\n          \"description\": \"Flowmeter\"\n        },\n        {\n          \"category\": \"meters\",\n          \"name\": \"gauge\",\n          \"path\": \"rtmaster/meters/gauge.svg\",\n          \"description\": \"Gauge\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"0\",\n          \"path\": \"rtmaster/numbers/number-0.svg\",\n          \"description\": \"0\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"1\",\n          \"path\": \"rtmaster/numbers/number-1.svg\",\n          \"description\": \"1\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"2\",\n          \"path\": \"rtmaster/numbers/number-2.svg\",\n          \"description\": \"2\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"3\",\n          \"path\": \"rtmaster/numbers/number-3.svg\",\n          \"description\": \"3\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"4\",\n          \"path\": \"rtmaster/numbers/number-4.svg\",\n          \"description\": \"4\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"5\",\n          \"path\": \"rtmaster/numbers/number-5.svg\",\n          \"description\": \"5\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"6\",\n          \"path\": \"rtmaster/numbers/number-6.svg\",\n          \"description\": \"6\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"7\",\n          \"path\": \"rtmaster/numbers/number-7.svg\",\n          \"description\": \"7\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"8\",\n          \"path\": \"rtmaster/numbers/number-8.svg\",\n          \"description\": \"8\"\n        },\n        {\n          \"category\": \"numbers\",\n          \"name\": \"9\",\n          \"path\": \"rtmaster/numbers/number-9.svg\",\n          \"description\": \"9\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-down\",\n          \"path\": \"rtmaster/pipes/pipe-curve-down.svg\",\n          \"description\": \"Pipe curve down\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-down-left\",\n          \"path\": \"rtmaster/pipes/pipe-curve-down-left.svg\",\n          \"description\": \"Pipe curve down left\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-down-right\",\n          \"path\": \"rtmaster/pipes/pipe-curve-down-right.svg\",\n          \"description\": \"Pipe curve down right\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-left\",\n          \"path\": \"rtmaster/pipes/pipe-curve-left.svg\",\n          \"description\": \"Pipe curve left\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-right\",\n          \"path\": \"rtmaster/pipes/pipe-curve-right.svg\",\n          \"description\": \"Pipe curve right\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-up\",\n          \"path\": \"rtmaster/pipes/pipe-curve-up.svg\",\n          \"description\": \"Pipe curve up\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-up-left\",\n          \"path\": \"rtmaster/pipes/pipe-curve-up-left.svg\",\n          \"description\": \"Pipe curve up left\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-curve-up-right\",\n          \"path\": \"rtmaster/pipes/pipe-curve-up-right.svg\",\n          \"description\": \"Pipe curve up right\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-diagonal-left\",\n          \"path\": \"rtmaster/pipes/pipe-diagonal-left.svg\",\n          \"description\": \"Pipe diagonal left\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-diagonal-right\",\n          \"path\": \"rtmaster/pipes/pipe-diagonal-right.svg\",\n          \"description\": \"Pipe diagonal right\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-flange-horizontal\",\n          \"path\": \"rtmaster/pipes/pipe-flange-horizontal.svg\",\n          \"description\": \"Pipe flange horizontal\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-flange-intersection\",\n          \"path\": \"rtmaster/pipes/pipe-flange-intersection.svg\",\n          \"description\": \"Pipe flange intersection\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-flange-vertical\",\n          \"path\": \"rtmaster/pipes/pipe-flange-vertical.svg\",\n          \"description\": \"Pipe flange vertical\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-horizontal\",\n          \"path\": \"rtmaster/pipes/pipe-horizontal.svg\",\n          \"description\": \"Pipe horizontal\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-tee-down\",\n          \"path\": \"rtmaster/pipes/pipe-tee-down.svg\",\n          \"description\": \"Pipe tee down\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-tee-left\",\n          \"path\": \"rtmaster/pipes/pipe-tee-left.svg\",\n          \"description\": \"Pipe tee left\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-tee-right\",\n          \"path\": \"rtmaster/pipes/pipe-tee-right.svg\",\n          \"description\": \"Pipe tee right\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-tee-up\",\n          \"path\": \"rtmaster/pipes/pipe-tee-up\",\n          \"description\": \"Pipe tee up\"\n        },\n        {\n          \"category\": \"pipes\",\n          \"name\": \"pipe-vertical\",\n          \"path\": \"rtmaster/pipes/pipe-vertical.svg\",\n          \"description\": \"Pipe vertical\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"circle\",\n          \"path\": \"rtmaster/shapes/circle.svg\",\n          \"description\": \"Circle\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"gear\",\n          \"path\": \"rtmaster/shapes/gear.svg\",\n          \"description\": \"Gear\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-horizontal\",\n          \"path\": \"rtmaster/shapes/line-horizontal.svg\",\n          \"description\": \"Line horizontal\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-horizontal-arrow-left\",\n          \"path\": \"rtmaster/shapes/line-horizontal-arrow-left.svg\",\n          \"description\": \"Line horizontal arrow left\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-horizontal-arrow-right\",\n          \"path\": \"rtmaster/shapes/line-horizontal-arrow-right.svg\",\n          \"description\": \"Line horizontal arrow right\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-vertical\",\n          \"path\": \"rtmaster/shapes/line-vertical.svg\",\n          \"description\": \"Line vertical\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-vertical-arrow-down\",\n          \"path\": \"rtmaster/shapes/line-vertical-arrow-down.svg\",\n          \"description\": \"Line vertical arrow down\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"line-vertical-arrow-up\",\n          \"path\": \"rtmaster/shapes/line-vertical-arrow-up.svg\",\n          \"description\": \"Line vertical arrow up\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"square\",\n          \"path\": \"rtmaster/shapes/square.svg\",\n          \"description\": \"Square\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"triangle-down\",\n          \"path\": \"rtmaster/shapes/triangle-down.svg\",\n          \"description\": \"Triangle down\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"triangle-left\",\n          \"path\": \"rtmaster/shapes/triangle-left.svg\",\n          \"description\": \"Triangle left\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"triangle-right\",\n          \"path\": \"rtmaster/shapes/triangle-right.svg\",\n          \"description\": \"Triangle right\"\n        },\n        {\n          \"category\": \"shapes\",\n          \"name\": \"triangle-up\",\n          \"path\": \"rtmaster/shapes/triangle-up.svg\",\n          \"description\": \"Triangle-up\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-horizontal\",\n          \"path\": \"rtmaster/valves/valve-horizontal.svg\",\n          \"description\": \"Valve Horizontal\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-left-right\",\n          \"path\": \"rtmaster/valves/valve-left-right.svg\",\n          \"description\": \"Valve left right\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-round-down\",\n          \"path\": \"rtmaster/valves/valve-round-down.svg\",\n          \"description\": \"Valve round down\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-round-left\",\n          \"path\": \"rtmaster/valves/valve-round-left.svg\",\n          \"description\": \"Valve round left\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-round-right\",\n          \"path\": \"rtmaster/valves/valve-round-right.svg\",\n          \"description\": \"Valve round right\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-round-up\",\n          \"path\": \"rtmaster/valves/valve-round-up.svg\",\n          \"description\": \"Valve round up\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-square-down\",\n          \"path\": \"rtmaster/valves/valve-square-down.svg\",\n          \"description\": \"Valve square down\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-square-left\",\n          \"path\": \"rtmaster/valves/valve-square-left.svg\",\n          \"description\": \"Valve square left\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-square-right\",\n          \"path\": \"rtmaster/valves/valve-square-right.svg\",\n          \"description\": \"Valve square right\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-square-up\",\n          \"path\": \"rtmaster/valves/valve-square-up.svg\",\n          \"description\": \"Valve square up\"\n        },\n        {\n          \"category\": \"valves\",\n          \"name\": \"valve-vertical\",\n          \"path\": \"rtmaster/valves/valve-vertical\",\n          \"description\": \"Valve vertical\"\n        }\n      ]\n    }\n  },\n  \"svgBuilderData\": {\n    \"elements\": [],\n    \"height\": \"100%\",\n    \"viewport\": {\n      \"height\": 1000,\n      \"width\": 1000,\n      \"x\": 0,\n      \"y\": 0\n    },\n    \"width\": \"100%\"\n  },\n  \"targets\": [\n    {\n      \"alias\": \"\",\n      \"groupBy\": [\n        {\n          \"params\": [\n            \"$__interval\"\n          ],\n          \"type\": \"time\"\n        },\n        {\n          \"params\": [\n            \"null\"\n          ],\n          \"type\": \"fill\"\n        }\n      ],\n      \"measurement\": \"mois_noho_sensors\",\n      \"orderByTime\": \"ASC\",\n      \"policy\": \"default\",\n      \"refId\": \"A\",\n      \"resultFormat\": \"time_series\",\n      \"select\": [\n        [\n          {\n            \"params\": [\n              \"*\"\n            ],\n            \"type\": \"field\"\n          },\n          {\n            \"params\": [],\n            \"type\": \"mean\"\n          }\n        ]\n      ],\n      \"tags\": []\n    }\n  ],\n  \"title\": \"IR-Sensor SVG-Pixmap\",\n  \"transparent\": true,\n  \"type\": \"marcuscalidus-svg-panel\",\n  \"useSVGBuilder\": false\n}",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "15m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "mois_noho_sensors",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(*) FROM \"mois_noho_sensors\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "*"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "6x5 ds18b20 SVG-Pixmap text",
+      "transparent": true,
+      "type": "marcuscalidus-svg-panel",
+      "useSVGBuilder": false
+    },
+    {
+      "aliasColors": {
+        "mois_noho_sensors.mean_temp-ir-1-1": "super-light-blue",
+        "mois_noho_sensors.mean_temp-ir-1-2": "light-blue",
+        "mois_noho_sensors.mean_temp-ir-1-3": "semi-dark-blue",
+        "mois_noho_sensors.mean_temp-ir-1-4": "dark-blue",
+        "mois_noho_sensors.mean_temp-ir-1-5": "rgb(17, 54, 110)",
+        "mois_noho_sensors.mean_temp-ir-2-1": "super-light-green",
+        "mois_noho_sensors.mean_temp-ir-2-2": "light-green",
+        "mois_noho_sensors.mean_temp-ir-2-3": "semi-dark-green",
+        "mois_noho_sensors.mean_temp-ir-2-4": "dark-green",
+        "mois_noho_sensors.mean_temp-ir-2-5": "rgb(27, 66, 22)",
+        "mois_noho_sensors.mean_temp-ir-3-1": "super-light-red",
+        "mois_noho_sensors.mean_temp-ir-3-2": "light-red",
+        "mois_noho_sensors.mean_temp-ir-3-3": "semi-dark-red",
+        "mois_noho_sensors.mean_temp-ir-3-4": "dark-red",
+        "mois_noho_sensors.mean_temp-ir-3-5": "rgb(112, 11, 23)",
+        "mois_noho_sensors.mean_temp-ir-4-1": "super-light-purple",
+        "mois_noho_sensors.mean_temp-ir-4-2": "light-purple",
+        "mois_noho_sensors.mean_temp-ir-4-3": "semi-dark-purple",
+        "mois_noho_sensors.mean_temp-ir-4-4": "dark-purple",
+        "mois_noho_sensors.mean_temp-ir-4-5": "rgb(77, 31, 99)"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "hiveeyes_27041c2a_8afd_4a1e_b3ae_44233fa1f06b",
+      "decimals": 2,
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 15,
+      "interval": "",
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "max": true,
+        "min": true,
+        "rightSide": true,
+        "show": false,
+        "sort": "min",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": false,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 1,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "",
+          "fields": [
+            {
+              "func": "mean",
+              "name": "temp-ir-8-8"
+            }
+          ],
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "groupByTags": [],
+          "measurement": "mois_noho_sensors",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"temp-ir-8-8\") FROM \"default_test1_sensors\" WHERE $timeFilter GROUP BY time($interval)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "*"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "device=noho, site=mois",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "celsius",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "celsius",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "content": "",
+      "datasource": null,
+      "description": "",
+      "gridPos": {
+        "h": 2,
+        "w": 18,
+        "x": 0,
+        "y": 8
+      },
+      "id": 19,
+      "mode": "markdown",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Flugloch linke Schmalseite. Sensor 1_1 oben links, 6_5 unten rechts.",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "aliasColors": {
+        "mois_noho_sensors.mean_temp-ir-1-1": "super-light-blue",
+        "mois_noho_sensors.mean_temp-ir-1-2": "light-blue",
+        "mois_noho_sensors.mean_temp-ir-1-3": "semi-dark-blue",
+        "mois_noho_sensors.mean_temp-ir-1-4": "dark-blue",
+        "mois_noho_sensors.mean_temp-ir-1-5": "rgb(19, 60, 122)",
+        "mois_noho_sensors.mean_temp-ir-2-1": "super-light-green",
+        "mois_noho_sensors.mean_temp-ir-2-2": "light-green",
+        "mois_noho_sensors.mean_temp-ir-2-3": "semi-dark-green",
+        "mois_noho_sensors.mean_temp-ir-2-4": "dark-green",
+        "mois_noho_sensors.mean_temp-ir-2-5": "rgb(29, 71, 23)",
+        "mois_noho_sensors.mean_temp-ir-3-1": "super-light-red",
+        "mois_noho_sensors.mean_temp-ir-3-2": "light-red",
+        "mois_noho_sensors.mean_temp-ir-3-3": "semi-dark-red",
+        "mois_noho_sensors.mean_temp-ir-3-4": "dark-red",
+        "mois_noho_sensors.mean_temp-ir-3-5": "rgb(102, 11, 22)",
+        "mois_noho_sensors.mean_temp-ir-4-1": "super-light-purple",
+        "mois_noho_sensors.mean_temp-ir-4-2": "light-purple",
+        "mois_noho_sensors.mean_temp-ir-4-3": "semi-dark-purple",
+        "mois_noho_sensors.mean_temp-ir-4-4": "dark-purple",
+        "mois_noho_sensors.mean_temp-ir-4-5": "rgb(68, 29, 87)"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "hiveeyes_27041c2a_8afd_4a1e_b3ae_44233fa1f06b",
+      "decimals": 2,
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 17,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "hiddenSeries": false,
+      "id": 5,
+      "interval": "",
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "sort": "avg",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": false,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "Temp Wetterstation",
+          "color": "#FFB357",
+          "fill": 0,
+          "lines": true,
+          "linewidth": 1,
+          "points": false
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "",
+          "fields": [
+            {
+              "func": "mean",
+              "name": "temp-ir-8-8"
+            }
+          ],
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "groupByTags": [],
+          "measurement": "mois_noho_sensors",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"temp-ir-8-8\") FROM \"default_test1_sensors\" WHERE $timeFilter GROUP BY time($interval)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "*"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Temp Wetterstation",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "mois_yun_sensors",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "wb_Temperature"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "2d",
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "device=noho, site=mois",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "celsius",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "none",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 27
+      },
+      "id": 17,
+      "panels": [
+        {
+          "content": "die idee: wenn ich im winter eh dämmmaterial auf die bienenkiste packe, dann kann ich per in die dämmung gearbeiteter temperatursensoren auch gleich die wanderschaft der heiztraube aufzeichnen.\n\nso sieht die filzmatte mit den sensoren aus:\n![Image](https://www.euse.de/wp/wp-content/uploads/2023/11/20231107_013850.jpg)\n\nund so, wenn sie im einsatz ist:\n\n![Image](https://community.hiveeyes.org/uploads/default/optimized/2X/4/4592049b22f880c3af2bad7f3ea623fa85c93595_2_690x461.jpeg)\n\nblaue **verbinder** wie hier von poesel entdeckt:\nhttps://community.hiveeyes.org/t/open-hive-temperature-array/524/34\n\npi für **1wire** klarmachen:\nhttps://community.element14.com/products/raspberry-pi/raspberrypi_projects/b/blog/posts/multiple-ds18b20-temp-sensors-interfacing-with-raspberry-pi\n\nsensordaten **gemapped und geordnet** wie hier von clemens vorgemacht:\nhttps://community.hiveeyes.org/t/ds18b20-temperatur-sensoren-am-one-wire-bus-anordnen/1399\n\n\n>     /sys/bus/w1/devices/28-00000735a982 temp-ir-4-1\n>     /sys/bus/w1/devices/28-000007359dde temp-ir-4-2\n>     /sys/bus/w1/devices/28-000007364e78 temp-ir-4-3\n>     /sys/bus/w1/devices/28-6a39eb086461 temp-ir-4-4\n>     /sys/bus/w1/devices/28-0939ee086461 temp-ir-4-5\n>     /sys/bus/w1/devices/28-00000735b04d temp-ir-3-5\n>     /sys/bus/w1/devices/28-8a3fee086461 temp-ir-3-4\n>     /sys/bus/w1/devices/28-1843f4086461 temp-ir-3-3\n>     /sys/bus/w1/devices/28-faf8eb086461 temp-ir-3-2\n>     /sys/bus/w1/devices/28-000007351a12 temp-ir-3-1\n>     /sys/bus/w1/devices/28-00000743bda0 temp-ir-2-1\n>     /sys/bus/w1/devices/28-000007351f7f temp-ir-2-2\n>     /sys/bus/w1/devices/28-129fd7086461 temp-ir-2-3\n>     /sys/bus/w1/devices/28-69e3eb086461 temp-ir-2-4\n>     /sys/bus/w1/devices/28-00000735b39e temp-ir-2-5\n>     /sys/bus/w1/devices/28-a825eb086461 temp-ir-1-5\n>     /sys/bus/w1/devices/28-000007350e77 temp-ir-1-4\n>     /sys/bus/w1/devices/28-000007359c4f temp-ir-1-3\n>     /sys/bus/w1/devices/28-00000735c6d1 temp-ir-1-2\n>     /sys/bus/w1/devices/28-000007359257 temp-ir-1-1\n\nursprünglicher code zur datenverarbeitung auf dem pi:\nhttps://community.element14.com/products/raspberry-pi/raspberrypi_projects/b/blog/posts/multiple-ds18b20-temp-sensors-interfacing-with-raspberry-pi?CommentId=9470e4e9-b054-4dd3-9a3f-ac9d1fe38087\n\n### pi zum datenversand vorbereiten\n\npaho-mqtt in einer virtualenv war nötig: https://pypi.org/project/paho-mqtt/#installation\n\nssh zum pi, dort derzeit in einem\n\nscreen\n\nsource paho-mqtt/bin/activate\n\ncd ~/temp-matrix\n\npython test.py\n\n\n\nmqtt-**daten-upload** nach hiveeyes wie im beispiel von mde:\nhttps://community.hiveeyes.org/t/daten-per-mqtt-und-python-ans-backend-auf-swarm-hiveeyes-org-ubertragen/94/6\n\nformat des arrays wie bei clemens:\nhttps://community.hiveeyes.org/t/how-to-visualize-2-dimensional-temperature-data-in-grafana/974/9\n\n>     matrix = [[temp_ir_1_1, temp_ir_1_2, temp_ir_1_3, temp_ir_1_4, temp_ir_1_5], \\\n>               [temp_ir_2_1, temp_ir_2_2, temp_ir_2_3, temp_ir_2_4, temp_ir_2_5], \\\n>               [temp_ir_3_1, temp_ir_3_2, temp_ir_3_3, temp_ir_3_4, temp_ir_3_5], \\\n>               [temp_ir_4_1, temp_ir_4_2, temp_ir_4_3, temp_ir_4_4, temp_ir_4_5]]\n\n**grafana**-experiment von wtf kopiert:\nhttps://swarm.hiveeyes.org/grafana/d/Y9PcgE4Sz/mois-ex-wtf-test-ir-sensor-svg-pixmap-copy\n\ndie panels (svg, js) angepasst auf mein 4x5-format (prozentzahlen, adressierung der array-variablen).\n\ndaten laufen rein in die datenbank.\ndie panels sehen ungefähr so aus, wie sie aussehen sollen.\nsoweit wunderbar.\n\nskript von sleep(900) auf cron umgestellt, beachte virtualenv: https://stackoverflow.com/questions/3287038/cron-and-virtualenv\n\n\n### todo\n* offset der sensoren ermitteln, https://community.hiveeyes.org/t/temperatursensoren-justieren-kalibrieren/1744/2\n\n\n### appendix: how to delete sensor failure entries from db\n\n    root@elbanco:~# influx\n    Connected to http://localhost:8086 version 1.7.10\n    InfluxDB shell version: 1.7.10\n    > use hiveeyes_....\n\n    Using database hiveeyes_....\n    > show series\n\n    key\n    ---\n    mois_noho_sensors\n    ...\n    > SHOW FIELD KEYS FROM mois_noho_sensors\n\n    name: mois_noho_sensors\n    fieldKey    fieldType\n    --------    ---------\n    temp-ir-1-1 float\n    temp-ir-1-2 float\n    temp-ir-1-3 float\n    ...\n    temp-ir-4-5 float\n    > select \"temp-ir-1-2\" from mois_noho_sensors where \"temp-ir-1-2\" < -50\n\n    name: mois_noho_sensors\n    time                temp-ir-1-2\n    ----                -----------\n    1699396254643410035 -99\n    > delete from mois_noho_sensors where time = 1699396254643410035\n\n    > exit\n    root@elbanco:~# exit\n    logout\n    Connection to elbanco.hiveeyes.org closed.\n\n\n\n\n",
+          "datasource": null,
+          "description": "",
+          "gridPos": {
+            "h": 41,
+            "w": 24,
+            "x": 0,
+            "y": 28
+          },
+          "id": 14,
+          "mode": "markdown",
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "",
+          "transparent": true,
+          "type": "text"
+        }
+      ],
+      "title": "Notizen",
+      "type": "row"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [
+    "instant",
+    "hiveeyes",
+    "mois"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {
+    "collapse": false,
+    "enable": true,
+    "notice": false,
+    "now": true,
+    "refresh_intervals": [
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "status": "Stable",
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ],
+    "type": "timepicker"
+  },
+  "timezone": "browser",
+  "title": "[mois, ex-wtf] Test: ds18b20-5x6-Temp-Matrix SVG-Pixmap",
+  "uid": "T49wHSaIk",
+  "variables": {
+    "list": []
+  },
+  "version": 7
+}
