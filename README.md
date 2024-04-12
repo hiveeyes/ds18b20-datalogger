@@ -3,6 +3,8 @@
 # temp-matrix
 temperature matrix based on raspberry pi, python, 5x6 ds18b20, and grafana
 
+for development details see: [https://community.hiveeyes.org/t/laborprotokoll-4x5-temp-matrix-mit-ds18b20/5102/14](URL)
+
 ## files
   * README.md - this file
   * LICENSE
