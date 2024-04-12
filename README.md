@@ -9,7 +9,7 @@ for development details see: [https://community.hiveeyes.org/t/laborprotokoll-4x
   * README.md - this file
   * LICENSE
   * temp-matrix_5x6.py - sensor reading and data logging to hiveeyes
-  * temp-matrix_5x6-grafana_desktop.json - desktop file for visualization in grafana
+  * temp-matrix_5x6-grafana_desktop.json - description of [grafana desktop](https://swarm.hiveeyes.org/grafana/d/T49wHSaIk/mois-ex-wtf-test-ds18b20-5x6-temp-matrix-svg-pixmap?orgId=2&from=1712771622514&to=1712807415379)
 
 ## sensor wiring
 be aware that you might have to ajust your resistors size.
