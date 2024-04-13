@@ -5,7 +5,7 @@
 # temp-matrix
 temperature matrix based on raspberry pi, python, 5x6 ds18b20, and grafana
 
-for development details see: [https://community.hiveeyes.org/t/laborprotokoll-4x5-temp-matrix-mit-ds18b20/5102/14](URL)
+for development details see: [https://community.hiveeyes.org/t/laborprotokoll-4x5-temp-matrix-mit-ds18b20/5102/14](https://community.hiveeyes.org/t/laborprotokoll-4x5-temp-matrix-mit-ds18b20/5102/14)
 
 ## files
   * README.md - this file
@@ -20,7 +20,7 @@ i am getting valid mapping using a 2.2k resistor.
 
 ## sensor mapping
 [https://community.hiveeyes.org/t/ds18b20-temperatur-sensoren-am-one-wire-bus-anordnen/1399
-](URL)
+](https://community.hiveeyes.org/t/ds18b20-temperatur-sensoren-am-one-wire-bus-anordnen/1399)
 
 ## data publishing
 paho-mqtt required: [https://pypi.org/project/paho-mqtt/#installation](URL)
@@ -32,11 +32,11 @@ paho-mqtt required: [https://pypi.org/project/paho-mqtt/#installation](URL)
     python temp-matrix_5x6.py`
 
 ### mqtt data upload to hiveeyes
-[https://community.hiveeyes.org/t/daten-per-mqtt-und-python-ans-backend-auf-swarm-hiveeyes-org-ubertragen/94/6](URL)
+[https://community.hiveeyes.org/t/daten-per-mqtt-und-python-ans-backend-auf-swarm-hiveeyes-org-ubertragen/94/6](https://community.hiveeyes.org/t/daten-per-mqtt-und-python-ans-backend-auf-swarm-hiveeyes-org-ubertragen/94/6)
 
 ### format your array
 [https://community.hiveeyes.org/t/how-to-visualize-2-dimensional-temperature-data-in-grafana/974/9
-](URL)
+](https://community.hiveeyes.org/t/how-to-visualize-2-dimensional-temperature-data-in-grafana/974/9)
 
      matrix = [[temp_ir_1_1, temp_ir_1_2, temp_ir_1_3, temp_ir_1_4, temp_ir_1_5, temp_ir_1_6], \
           [temp_ir_2_1, temp_ir_2_2, temp_ir_2_3, temp_ir_2_4, temp_ir_2_5, temp_ir_2_6], \
@@ -46,11 +46,11 @@ paho-mqtt required: [https://pypi.org/project/paho-mqtt/#installation](URL)
 
 ## data visualizing (grafana)
 [https://swarm.hiveeyes.org/grafana/d/Y9PcgE4Sz/mois-ex-wtf-test-ir-sensor-svg-pixmap-copy
-](URL)
+](https://swarm.hiveeyes.org/grafana/d/Y9PcgE4Sz/mois-ex-wtf-test-ir-sensor-svg-pixmap-copy)
 
 ## bonus: sensors offsets
 [https://community.hiveeyes.org/t/temperatursensoren-justieren-kalibrieren/1744/2
-](URL)
+](https://community.hiveeyes.org/t/temperatursensoren-justieren-kalibrieren/1744/2)
 
 
 
