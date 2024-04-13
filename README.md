@@ -1,4 +1,6 @@
-![Alt-Text](https://community.hiveeyes.org/uploads/default/optimized/2X/f/f59f0149306b811f793627ec956c3e43c3758e51_2_334x500.jpeg)
+| View from outside | View from inside (sensor tip details) |
+|:----:|:----:|
+| ![Außen](https://community.hiveeyes.org/uploads/default/optimized/2X/f/f59f0149306b811f793627ec956c3e43c3758e51_2_334x500.jpeg)  | ![Innen](https://community.hiveeyes.org/uploads/default/optimized/2X/1/10f98dd272bd95940b311e22ef756114bd4efa04_2_333x500.jpeg) |
 
 # temp-matrix
 temperature matrix based on raspberry pi, python, 5x6 ds18b20, and grafana
