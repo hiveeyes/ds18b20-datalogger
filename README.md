@@ -35,16 +35,11 @@ https://community.hiveeyes.org/t/laborprotokoll-4x5-temp-matrix-mit-ds18b20/5102
 
 
 ## What's Inside
-* README.md - this file
-* LICENSE
- 
-* `temp-matrix_5x6.py`
 
-  Sensor reading and data logging to Kotori DAQ / Hiveeyes.
-
-* `temp-matrix_5x6-grafana_desktop.json`
-  
-  JSON representation for corresponding [Grafana Dashboard].
+- The `ds18b20-datalogger` program, reading DS18B20 sensors and
+  publishing readings to MQTT.
+- JSON representation for a corresponding [Grafana Dashboard],
+  when acquired through [Kotori DAQ].
 
 
 ## Setup
@@ -76,9 +71,8 @@ https://community.hiveeyes.org/t/ds18b20-temperatur-sensoren-am-one-wire-bus-ano
 ```shell
 ssh youruser@yourpi
 screen
-cd ds18b20-datalogger
-source paho-mqtt/bin/activate
-python temp-matrix_5x6.py
+source /path/to/ds18b20-datalogger/.venv/bin/activate
+ds18b20-datalogger
 ```
 
 ### MQTT data upload to Hiveeyes
@@ -94,11 +88,17 @@ matrix = [[temp_ir_1_1, temp_ir_1_2, temp_ir_1_3, temp_ir_1_4, temp_ir_1_5, temp
           [temp_ir_5_1, temp_ir_5_2, temp_ir_5_3, temp_ir_5_4, temp_ir_5_5, temp_ir_5_6]]
 ```
 
-## Data visualization in Grafana
+### Data visualization in Grafana
 https://swarm.hiveeyes.org/grafana/d/Y9PcgE4Sz/mois-ex-wtf-test-ir-sensor-svg-pixmap-copy
 
-## Bonus: Sensor offsets
+### Bonus: Sensor offsets
 https://community.hiveeyes.org/t/temperatursensoren-justieren-kalibrieren/1744/2
+
+### Cron Configuration
+```
+*/5 * * * * cd /path/to/data-directory && /path/to/ds18b20-datalogger/.venv/bin/ds18b20-datalogger
+```
+
 
 ## Contributing
 
@@ -110,6 +110,7 @@ Contributions of any kind are always welcome and appreciated. Thank you.
 
 
 [Grafana Dashboard]: https://swarm.hiveeyes.org/grafana/d/T49wHSaIk/mois-ex-wtf-test-ds18b20-5x6-temp-matrix-svg-pixmap?orgId=2&from=1712771622514&to=1712807415379
+[Kotori DAQ]: https://kotori.readthedocs.io
 
 [Changelog]: https://github.com/hiveeyes/ds18b20-datalogger/blob/main/CHANGES.md
 [development documentation]: https://ds18b20-datalogger.readthedocs.io/en/latest/sandbox.html

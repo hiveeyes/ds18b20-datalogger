@@ -9,16 +9,12 @@ Recommended:
 ```
 ssh to your pi
 screen
-cd /path/to/ds18b20-datalogger
-source .venv/bin/activate
-python temp-matrix_5x6.py
+source /path/to/ds18b20-datalogger/.venv/bin/activate
+ds18b20-datalogger
 ```
 
-Nice:
-crontab -e
-```
-*/5 * * * * cd /path/to/ds18b20-datalogger && /path/to/ds18b20-datalogger/.venv/bin/python /path/to/ds18b20-datalogger/temp-matrix_5x6.py
-```
+Ursprünglicher code zur Datenverarbeitung auf dem Pi:
+https://community.element14.com/products/raspberry-pi/raspberrypi_projects/b/blog/posts/multiple-ds18b20-temp-sensors-interfacing-with-raspberry-pi?CommentId=9470e4e9-b054-4dd3-9a3f-ac9d1fe38087
 """  # noqa: E501
 
 import glob
