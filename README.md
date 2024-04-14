@@ -126,9 +126,9 @@ Contributions of any kind are always welcome and appreciated. Thank you.
 [badge-package-version]: https://img.shields.io/pypi/v/ds18b20-datalogger.svg
 [badge-python-versions]: https://img.shields.io/pypi/pyversions/ds18b20-datalogger.svg
 [badge-status]: https://img.shields.io/pypi/status/ds18b20-datalogger.svg
-[badge-tests]: https://github.com/hiveeyes/ds18b20-datalogger/actions/workflows/main.yml/badge.svg
+[badge-tests]: https://github.com/hiveeyes/ds18b20-datalogger/actions/workflows/tests.yml/badge.svg
 [project-codecov]: https://codecov.io/gh/hiveeyes/ds18b20-datalogger
 [project-downloads]: https://pepy.tech/project/ds18b20-datalogger/
 [project-license]: https://github.com/hiveeyes/ds18b20-datalogger/blob/main/LICENSE
 [project-pypi]: https://pypi.org/project/ds18b20-datalogger
-[project-tests]: https://github.com/hiveeyes/ds18b20-datalogger/actions/workflows/main.yml
+[project-tests]: https://github.com/hiveeyes/ds18b20-datalogger/actions/workflows/tests.yml
