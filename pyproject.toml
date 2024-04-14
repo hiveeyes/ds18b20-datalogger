@@ -16,12 +16,12 @@ readme = "README.md"
 keywords = [
   "beehive monitoring",
   "ds18b20",
-  "temperature matrix",
-  "sensor network",
-  "raspberry pi",
-  "mqtt",
-  "kotori daq",
   "grafana",
+  "kotori daq",
+  "mqtt",
+  "raspberry pi",
+  "sensor network",
+  "temperature matrix",
 ]
 license = { file = "LICENSE" }
 authors = [
@@ -75,7 +75,6 @@ changelog = "https://github.com/hiveeyes/ds18b20-datalogger/blob/main/CHANGES.md
 documentation = "https://ds18b20-datalogger.readthedocs.io/"
 homepage = "https://ds18b20-datalogger.readthedocs.io/"
 repository = "https://github.com/hiveeyes/ds18b20-datalogger"
-
 [project.scripts]
 ds18b20-datalogger = "ds18b20_datalogger.cli:main"
 
