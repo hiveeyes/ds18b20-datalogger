@@ -110,7 +110,7 @@ def send_measurement_mqtt(matrix):
     payload = json.dumps(measurement)
     # Publish to MQTT
     pid = os.getpid()
-    client_id = "{}:{}".format("hiverize", str(pid))
+    client_id = "{}:{}".format("mois-temp-matrix", str(pid))
     backend = mqtt.Client(client_id=client_id, clean_session=True)
     backend.username_pw_set(mqtt_user, mqtt_pass)
     backend.connect(mqtt_host, mqtt_port)
