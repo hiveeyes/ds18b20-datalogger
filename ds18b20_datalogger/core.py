@@ -120,6 +120,13 @@ def read_ds18b20_sensor_matrix():
         ls -la /sys/bus/w1/devices/
     """
 
+    temp_ir_1_1 = temp_ir_1_2 = temp_ir_1_3 = temp_ir_1_4 = temp_ir_1_5 = None
+    temp_ir_2_1 = temp_ir_2_2 = temp_ir_2_3 = temp_ir_2_4 = temp_ir_2_5 = None
+    temp_ir_3_1 = temp_ir_3_2 = temp_ir_3_3 = temp_ir_3_4 = temp_ir_3_5 = None
+    temp_ir_4_1 = temp_ir_4_2 = temp_ir_4_3 = temp_ir_4_4 = temp_ir_4_5 = None
+    temp_ir_5_1 = temp_ir_5_2 = temp_ir_5_3 = temp_ir_5_4 = temp_ir_5_5 = None
+    temp_ir_6_1 = temp_ir_6_2 = temp_ir_6_3 = temp_ir_6_4 = temp_ir_6_5 = None
+
     # Mount the device.
     os.system('modprobe w1-gpio')
     os.system('modprobe w1-therm')
@@ -225,17 +232,11 @@ def read_ds18b20_sensor_matrix():
             temp_ir_6_5 = tc
     #    print ('%s %3.1f deg C %s' % (folder, tc, label))  # DEBUG
     #    print ('%s %3.1f' % (label, tc))                   # DEBUG
-    matrix = [[temp_ir_1_1, temp_ir_1_2, temp_ir_1_3, temp_ir_1_4, temp_ir_1_5], \
-              [temp_ir_2_1, temp_ir_2_2, temp_ir_2_3, temp_ir_2_4, temp_ir_2_5], \
-              [temp_ir_3_1, temp_ir_3_2, temp_ir_3_3, temp_ir_3_4, temp_ir_3_5], \
-              [temp_ir_4_1, temp_ir_4_2, temp_ir_4_3, temp_ir_4_4, temp_ir_4_5], \
-              [temp_ir_5_1, temp_ir_5_2, temp_ir_5_3, temp_ir_5_4, temp_ir_5_5], \
+    matrix = [[temp_ir_1_1, temp_ir_1_2, temp_ir_1_3, temp_ir_1_4, temp_ir_1_5],
+              [temp_ir_2_1, temp_ir_2_2, temp_ir_2_3, temp_ir_2_4, temp_ir_2_5],
+              [temp_ir_3_1, temp_ir_3_2, temp_ir_3_3, temp_ir_3_4, temp_ir_3_5],
+              [temp_ir_4_1, temp_ir_4_2, temp_ir_4_3, temp_ir_4_4, temp_ir_4_5],
+              [temp_ir_5_1, temp_ir_5_2, temp_ir_5_3, temp_ir_5_4, temp_ir_5_5],
               [temp_ir_6_1, temp_ir_6_2, temp_ir_6_3, temp_ir_6_4, temp_ir_6_5]]
     #  print (matrix)                                       # DEBUG
     return matrix
-
-
-if __name__ == "__main__":
-    reading = read_ds18b20_sensor_matrix()
-    send_measurement_mqtt(reading)
-    #  print (strftime("%Y-%m-%d %H:%M:%S", time.localtime())," Done sending. Going to sleep for 15min.")   # DEBUG
