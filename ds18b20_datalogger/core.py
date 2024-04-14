@@ -67,11 +67,15 @@ def send_measurement_mqtt(matrix):
     mqtt_user = "username"
     mqtt_pass = "some_safe_password"  # noqa: S105
     # The MQTT topic
-    mqtt_topic = "{realm}/{network}/{gateway}/{node}/message-json".format(
-        realm="hiveeyes",  # Beekeeper collective
-        network="xxxxxxxx-yyyy-zzzz-aaaa-bbbbbbbbbbbb",  # Beekeeper-ID
-        gateway="some_name",  # Beehive location
-        node="some_other_name",  # in my case: not hive but gateway
+    mqtt_topic = "{realm}/{network}/{gateway}/{node}/data.json".format(
+        # Beekeeper collective
+        realm="hiveeyes",
+        # Beekeeper-ID
+        network="testdrive",
+        # Beehive location
+        gateway="area42",
+        # In my case: Not a hive but the gateway.
+        node="array01",
     )
     # Define measurement for 30 sensors in 5x6 matrix
     measurement = {
