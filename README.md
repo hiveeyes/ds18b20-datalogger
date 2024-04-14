@@ -47,14 +47,11 @@ We recommend to install the program into a Python virtualenv.
 ```shell
 python3 -m venv .venv
 source .venv/bin/activate
-pip install 'ds18b20-datalogger @ git+https://github.com/hiveeyes/ds18b20-datalogger.git'
+pip install --upgrade ds18b20-datalogger
 ```
 
 In this spirit, you keep the installation separate from your system Python, so
 you can easily nuke it and start from scratch in case anything goes south.
-
-Prerequisites: This program needs the `paho-mqtt` package.
-https://pypi.org/project/paho-mqtt/#installation
 
 
 ## Operations

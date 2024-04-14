@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 """
-Requires:
-paho-mqtt in a venv: https://pypi.org/project/paho-mqtt/#installation
-insert your own sensor addresses (see below line 125+)
-your MQTT connection settings and credentials (line 65+)
+Configure:
+- Insert your own sensor addresses (read_ds18b20_sensor_matrix).
+- Adjust MQTT connection settings and credentials (send_measurement_mqtt).
 
-Recommended:
+Start:
 ```
 ssh to your pi
 screen
