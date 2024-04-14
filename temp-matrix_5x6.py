@@ -1,4 +1,4 @@
-#!/path-to-working-dir/temp-matrix/paho-mqtt/bin/python
+#!/usr/bin/env python
 #
 # requires:
 # paho-mqtt in a venv: https://pypi.org/project/paho-mqtt/#installation
@@ -8,13 +8,13 @@
 # recommended: 
 # ssh to your pi
 # screen
-# cd /path-to-working-dir/temp-matrix
-# source paho-mqtt/bin/activate
+# cd /path/to/ds18b20-datalogger
+# source .venv/bin/activate
 # python temp-matrix_5x6.py
 #
 # nice: 
 # crontab -e
-# */5 * * * * cd /path-to-working-dir/temp-matrix/ && /path-to-working-dir/paho-mqtt/bin/python /path-to-working-dir/temp-matrix/temp-matrix_5x6.py
+# */5 * * * * cd /path/to/ds18b20-datalogger && /path/to/ds18b20-datalogger/.venv/bin/python /path/to/ds18b20-datalogger/temp-matrix_5x6.py
 #
 
 import os

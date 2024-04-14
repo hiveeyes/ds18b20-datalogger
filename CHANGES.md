@@ -1,4 +1,4 @@
-# Changes for temp-matrix
+# Changes for ds18b20-datalogger
 
 ## Unreleased
 
