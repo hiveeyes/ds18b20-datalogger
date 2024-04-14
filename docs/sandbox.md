@@ -2,7 +2,7 @@
 
 ## Install
 ```shell
-git clone https://github.com/hiveeyes/temp-matrix
+git clone https://github.com/hiveeyes/ds18b20-datalogger
 python3 -m venv .venv
 source .venv/bin/activate
 pip install --editable='.[develop,docs,release,test]'

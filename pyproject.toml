@@ -11,7 +11,7 @@ default-tag = "0.0.0"
 
 [project]
 name = "ds18b20-datalogger"
-description = "Temperature sensor matrix using Raspberry Pi, DS18B20, MQTT, Kotori DAQ, and Grafana. For bee hive monitoring."
+description = "A data logger specializing in reading an array of DS18B20 sensors."
 readme = "README.md"
 keywords = [
   "beehive monitoring",
@@ -71,10 +71,10 @@ test = [
   "pytest-cov<6",
 ]
 [project.urls]
-changelog = "https://github.com/hiveeyes/temp-matrix/blob/main/CHANGES.md"
+changelog = "https://github.com/hiveeyes/ds18b20-datalogger/blob/main/CHANGES.md"
 documentation = "https://ds18b20-datalogger.readthedocs.io/"
 homepage = "https://ds18b20-datalogger.readthedocs.io/"
-repository = "https://github.com/hiveeyes/temp-matrix"
+repository = "https://github.com/hiveeyes/ds18b20-datalogger"
 
 [tool.black]
 line-length = 120
