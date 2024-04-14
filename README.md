@@ -15,6 +15,25 @@ Lab protocol and development details:
 https://community.hiveeyes.org/t/laborprotokoll-4x5-temp-matrix-mit-ds18b20/5102
 
 
+## Project Information
+
+» [Documentation]
+| [Changelog]
+| [PyPI]
+| [Issues]
+| [Source code]
+| [License]
+
+[![CI][badge-tests]][project-tests]
+[![Coverage Status][badge-coverage]][project-codecov]
+[![License][badge-license]][project-license]
+[![Downloads per month][badge-downloads-per-month]][project-downloads]
+
+[![Supported Python versions][badge-python-versions]][project-pypi]
+[![Status][badge-status]][project-pypi]
+[![Package version][badge-package-version]][project-pypi]
+
+
 ## What's Inside
 * README.md - this file
 * LICENSE
@@ -68,10 +87,10 @@ https://community.hiveeyes.org/t/daten-per-mqtt-und-python-ans-backend-auf-swarm
 ### Format your array
 https://community.hiveeyes.org/t/how-to-visualize-2-dimensional-temperature-data-in-grafana/974/9
 ```python
-matrix = [[temp_ir_1_1, temp_ir_1_2, temp_ir_1_3, temp_ir_1_4, temp_ir_1_5, temp_ir_1_6], \
-          [temp_ir_2_1, temp_ir_2_2, temp_ir_2_3, temp_ir_2_4, temp_ir_2_5, temp_ir_2_6], \
-          [temp_ir_3_1, temp_ir_3_2, temp_ir_3_3, temp_ir_3_4, temp_ir_3_5, temp_ir_3_6], \
-          [temp_ir_4_1, temp_ir_4_2, temp_ir_4_3, temp_ir_4_4, temp_ir_4_5, temp_ir_4_6], \
+matrix = [[temp_ir_1_1, temp_ir_1_2, temp_ir_1_3, temp_ir_1_4, temp_ir_1_5, temp_ir_1_6],
+          [temp_ir_2_1, temp_ir_2_2, temp_ir_2_3, temp_ir_2_4, temp_ir_2_5, temp_ir_2_6],
+          [temp_ir_3_1, temp_ir_3_2, temp_ir_3_3, temp_ir_3_4, temp_ir_3_5, temp_ir_3_6],
+          [temp_ir_4_1, temp_ir_4_2, temp_ir_4_3, temp_ir_4_4, temp_ir_4_5, temp_ir_4_6],
           [temp_ir_5_1, temp_ir_5_2, temp_ir_5_3, temp_ir_5_4, temp_ir_5_5, temp_ir_5_6]]
 ```
 
@@ -91,3 +110,24 @@ Contributions of any kind are always welcome and appreciated. Thank you.
 
 
 [Grafana Dashboard]: https://swarm.hiveeyes.org/grafana/d/T49wHSaIk/mois-ex-wtf-test-ds18b20-5x6-temp-matrix-svg-pixmap?orgId=2&from=1712771622514&to=1712807415379
+
+[Changelog]: https://github.com/hiveeyes/ds18b20-datalogger/blob/main/CHANGES.md
+[development documentation]: https://ds18b20-datalogger.readthedocs.io/en/latest/sandbox.html
+[Documentation]: https://ds18b20-datalogger.readthedocs.io/
+[Issues]: https://github.com/hiveeyes/ds18b20-datalogger/issues
+[License]: https://github.com/hiveeyes/ds18b20-datalogger/blob/main/LICENSE
+[PyPI]: https://pypi.org/project/ds18b20-datalogger/
+[Source code]: https://github.com/hiveeyes/ds18b20-datalogger
+
+[badge-coverage]: https://codecov.io/gh/hiveeyes/ds18b20-datalogger/branch/main/graph/badge.svg
+[badge-downloads-per-month]: https://pepy.tech/badge/ds18b20-datalogger/month
+[badge-license]: https://img.shields.io/github/license/hiveeyes/ds18b20-datalogger.svg
+[badge-package-version]: https://img.shields.io/pypi/v/ds18b20-datalogger.svg
+[badge-python-versions]: https://img.shields.io/pypi/pyversions/ds18b20-datalogger.svg
+[badge-status]: https://img.shields.io/pypi/status/ds18b20-datalogger.svg
+[badge-tests]: https://github.com/hiveeyes/ds18b20-datalogger/actions/workflows/main.yml/badge.svg
+[project-codecov]: https://codecov.io/gh/hiveeyes/ds18b20-datalogger
+[project-downloads]: https://pepy.tech/project/ds18b20-datalogger/
+[project-license]: https://github.com/hiveeyes/ds18b20-datalogger/blob/main/LICENSE
+[project-pypi]: https://pypi.org/project/ds18b20-datalogger
+[project-tests]: https://github.com/hiveeyes/ds18b20-datalogger/actions/workflows/main.yml
