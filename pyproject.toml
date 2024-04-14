@@ -76,6 +76,9 @@ documentation = "https://ds18b20-datalogger.readthedocs.io/"
 homepage = "https://ds18b20-datalogger.readthedocs.io/"
 repository = "https://github.com/hiveeyes/ds18b20-datalogger"
 
+[project.scripts]
+ds18b20-datalogger = "ds18b20_datalogger.cli:main"
+
 [tool.black]
 line-length = 120
 
