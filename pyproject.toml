@@ -1,0 +1,208 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools>=42", # At least v42 of setuptools required.
+  "versioningit",
+]
+
+[tool.versioningit.vcs]
+method = "git"
+default-tag = "0.0.0"
+
+[project]
+name = "ds18b20-datalogger"
+description = "Temperature sensor matrix using Raspberry Pi, DS18B20, MQTT, Kotori DAQ, and Grafana. For bee hive monitoring."
+readme = "README.md"
+keywords = [
+  "beehive monitoring",
+  "ds18b20",
+  "temperature matrix",
+  "sensor network",
+  "raspberry pi",
+  "mqtt",
+  "kotori daq",
+  "grafana",
+]
+license = { file = "LICENSE" }
+authors = [
+  { name = "The Hiveeyes Developers", email = "hello@hiveeyes.org" },
+]
+requires-python = ">=3.7"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: GNU General Public License (GPL)",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Education",
+  "Topic :: File Formats",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Text Processing",
+]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "paho-mqtt<2",
+]
+[project.optional-dependencies]
+develop = [
+  "black<25",
+  "mypy<1.10",
+  "poethepoet<0.26",
+  "pyproject-fmt<1.8",
+  "ruff<0.4",
+  "validate-pyproject<0.17",
+]
+docs = [
+]
+release = [
+  "build<2",
+  "keyring",
+  "twine<6",
+]
+test = [
+  "pytest<9",
+  "pytest-cov<6",
+]
+[project.urls]
+changelog = "https://github.com/hiveeyes/temp-matrix/blob/main/CHANGES.md"
+documentation = "https://ds18b20-datalogger.readthedocs.io/"
+homepage = "https://ds18b20-datalogger.readthedocs.io/"
+repository = "https://github.com/hiveeyes/temp-matrix"
+
+[tool.black]
+line-length = 120
+
+[tool.coverage.run]
+branch = false
+omit = [
+  "tests/*",
+]
+source = ["ds18b20_datalogger"]
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+
+[tool.mypy]
+packages = ["ds18b20_datalogger"]
+exclude = [
+]
+check_untyped_defs = true
+implicit_optional = true
+install_types = true
+no_implicit_optional = true
+non_interactive = true
+show_error_codes = true
+strict_equality = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+
+[tool.pytest.ini_options]
+addopts = "-rA --verbosity=3 --cov --cov-report=term-missing --cov-report=xml"
+minversion = "2.0"
+log_level = "DEBUG"
+log_cli_level = "DEBUG"
+log_format = "%(asctime)-15s [%(name)-36s] %(levelname)-8s: %(message)s"
+testpaths = [
+  "ds18b20_datalogger",
+  "tests",
+]
+xfail_strict = true
+markers = [
+]
+
+[tool.ruff]
+line-length = 120
+
+lint.select = [
+  # Pycodestyle
+  "E",
+  "W",
+  # Pyflakes
+  "F",
+  # isort
+  "I",
+  # Bandit
+  "S",
+  # flake8-quotes
+  "Q",
+  # eradicate
+  "ERA",
+  # flake8-2020
+  "YTT",
+  # print
+  "T20",
+  # return
+  "RET",
+  # pyupgrade
+  # "UP",
+  # flake8-commas
+  # "COM",
+  # future-annotations
+  # "FA",
+  # flake8-type-checking
+  "TCH",
+  # flake8-unused-arguments
+  # "ARG",
+  # flake8-use-pathlib
+  # "PTH"
+]
+
+lint.extend-ignore = [
+  # zip() without an explicit strict= parameter
+  "B905",
+  # df is a bad variable name. Be kinder to your future self.
+  "PD901",
+  # Unnecessary variable assignment before `return` statement
+  "RET504",
+  # Unnecessary `elif` after `return` statement
+  "RET505",
+]
+
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]  # Allow use of `assert`, and `print`.
+
+[tool.setuptools.packages.find]
+namespaces = false
+
+
+# ===================
+# Tasks configuration
+# ===================
+
+[tool.poe.tasks]
+
+check = [
+  "lint",
+  "test",
+]
+
+format = [
+  { cmd = "black ." },
+  # Configure Ruff not to auto-fix (remove!):
+  # unused imports (F401), unused variables (F841), `print` statements (T201), and commented-out code (ERA001).
+  { cmd = "ruff check --fix --ignore=ERA --ignore=F401 --ignore=F841 --ignore=T20 --ignore=ERA001 ." },
+  { cmd = "pyproject-fmt --keep-full-version pyproject.toml" },
+]
+
+lint = [
+  { cmd = "ruff check ." },
+  { cmd = "black --check ." },
+  { cmd = "validate-pyproject pyproject.toml" },
+  { cmd = "mypy" },
+]
+
+release = [
+  { cmd = "python -m build" },
+  { cmd = "twine upload dist/*.tar.gz dist/*.whl" },
+]
+
+test = { cmd = "pytest" }
