@@ -48,6 +48,7 @@ dynamic = [
   "version",
 ]
 dependencies = [
+  "importlib-resources; python_version<'3.9'",
   "paho-mqtt<2",
   "pyyaml<7",
 ]
