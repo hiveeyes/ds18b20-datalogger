@@ -1,7 +1,8 @@
 # Changes for ds18b20-datalogger
 
 ## Unreleased
-- Make software tests work, using a fake sysfs filesystem
+- Tests: Make sensor tests work, using a fake sysfs filesystem
+- Tests: Add basic test case for CLI interface
 
 ## v0.0.2 - 2024-04-15
 - Publish as `ds18b20-datalogger` package
