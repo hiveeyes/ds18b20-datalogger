@@ -49,6 +49,7 @@ dynamic = [
 ]
 dependencies = [
   "paho-mqtt<2",
+  "pyyaml<7",
 ]
 [project.optional-dependencies]
 develop = [
@@ -67,6 +68,7 @@ release = [
   "twine<6",
 ]
 test = [
+  "pyfakefs<6",
   "pytest<9",
   "pytest-cov<6",
 ]
