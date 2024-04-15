@@ -1,6 +1,6 @@
 import contextlib
-import importlib.resources
 import os
+import sys
 
 import pytest
 import yaml
@@ -8,12 +8,17 @@ from pyfakefs.fake_filesystem_unittest import Patcher as FakeFS
 
 from ds18b20_datalogger.core import read_ds18b20_sensor_matrix, send_measurement_mqtt
 
+if sys.version_info < (3, 9):
+    from importlib_resources import files
+else:
+    from importlib.resources import files
+
 
 def get_hardware_description(filename: str):
     """
     Read hardware description (map from sensor identifiers to values) from YAML file.
     """
-    testfile = importlib.resources.files("tests") / filename
+    testfile = files("tests") / filename
     return yaml.safe_load(testfile.read_bytes())
 
 
