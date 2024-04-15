@@ -1,4 +1,3 @@
-import contextlib
 import os
 import sys
 
@@ -22,44 +21,45 @@ def get_hardware_description(filename: str):
     return yaml.safe_load(testfile.read_bytes())
 
 
-@contextlib.contextmanager
 def synthesize_hardware(description):
     """
     Provide a fake sysfs filesystem to test cases, reflecting a hardware description.
     """
-    with FakeFS():
-        for item in description:
-            identifier = item["device"]
-            value = item["value"]
-            path = f"/sys/bus/w1/devices/{identifier}"
-            os.makedirs(path, exist_ok=True)
-            with open(f"{path}/w1_slave", "w") as f:
-                f.write(f"YES\nt={value}")
-        yield
+    for item in description:
+        identifier = item["device"]
+        value = item["value"]
+        path = f"/sys/bus/w1/devices/{identifier}"
+        os.makedirs(path, exist_ok=True)
+        with open(f"{path}/w1_slave", "w") as f:
+            f.write(f"YES\nt={value}")
 
 
 @pytest.fixture
-def fake_hardware_success():
+def onewire_success():
     """
-    Provide a fake sysfs filesystem to test cases, reflecting a dummy reading, defined in `onewire-success.yaml`.
-
     This fixture reflects that all DS18B20 sensors work well.
     """
-    description = get_hardware_description("onewire-success.yaml")
-    with synthesize_hardware(description):
-        yield
+    return get_hardware_description("onewire-success.yaml")
 
 
 @pytest.fixture
-def fake_hardware_defunct():
+def onewire_defunct():
     """
-    Provide a fake sysfs filesystem to test cases, reflecting a dummy reading, defined in `onewire-defunct.yaml`.
-
     This fixture reflects that a few DS18B20 sensors are defunct.
     """
-    description = get_hardware_description("onewire-defunct.yaml")
-    with synthesize_hardware(description):
-        yield
+    return get_hardware_description("onewire-defunct.yaml")
+
+
+@pytest.fixture
+def fake_hardware_success(onewire_success, fs: FakeFS):
+    synthesize_hardware(onewire_success)
+    yield fs
+
+
+@pytest.fixture
+def fake_hardware_defunct(onewire_defunct, fs: FakeFS):
+    synthesize_hardware(onewire_defunct)
+    yield fs
 
 
 def test_sensors_success(fake_hardware_success):
