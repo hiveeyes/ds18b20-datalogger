@@ -96,7 +96,10 @@ fail_under = 0
 show_missing = true
 
 [tool.mypy]
-packages = ["ds18b20_datalogger"]
+packages = [
+  "ds18b20_datalogger",
+  "tests",
+]
 exclude = [
 ]
 check_untyped_defs = true
