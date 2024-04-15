@@ -50,7 +50,7 @@ def fake_hardware_defunct():
     """
     Provide a fake sysfs filesystem to test cases, reflecting a dummy reading, defined in `onewire-defunct.yaml`.
 
-    This fixture reflects that three DS18B20 sensors are defunct.
+    This fixture reflects that a few DS18B20 sensors are defunct.
     """
     description = get_hardware_description("onewire-defunct.yaml")
     with synthesize_hardware(description):
