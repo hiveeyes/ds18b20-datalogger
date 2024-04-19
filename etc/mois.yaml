@@ -1,3 +1,6 @@
+# Configuration file for ds18b20-datalogger
+# https://github.com/hiveeyes/ds18b20-datalogger
+
 mqtt:
 
   # MQTT broker connection.
@@ -8,11 +11,13 @@ mqtt:
   password: "password"
 
   # MQTT topic.
-  # {realm}/{network}/{gateway}/{node}/data.json
-  # realm: Beekeeper collective
-  # network: Beekeeper-ID
-  # gateway: Hive location
-  # node: Hive name
+  # Structure: {realm}/{network}/{gateway}/{node}/data.json
+  #
+  # Details:
+  # :realm:   Beekeeper collective / group
+  # :network: Beekeeper identifier
+  # :gateway: Hive location
+  # :node:    Hive name
   topic: "hiveeyes/testdrive/area-42/array-one/data.json"
 
 one-wire:
