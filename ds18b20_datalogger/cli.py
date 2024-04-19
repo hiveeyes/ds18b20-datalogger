@@ -6,7 +6,7 @@ from ds18b20_datalogger.core import read_ds18b20_sensor_matrix, send_measurement
 from ds18b20_datalogger.model import Settings
 
 if sys.version_info < (3, 9):
-    from importlib_resources import files
+    from importlib_resources import files  # pragma: nocover
 else:
     from importlib.resources import files
 

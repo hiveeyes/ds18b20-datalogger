@@ -28,6 +28,11 @@ def test_cli_run_read_no_config():
     assert "Program needs a configuration file" in output
 
 
+def test_cli_run_read_nonexist_config():
+    exitcode, output = invoke("ds18b20-datalogger run foo.yaml")
+    assert "Configuration file does not exist: foo.yaml" in output
+
+
 def test_cli_read_success():
     command = shlex.split("ds18b20-datalogger read ds18b20_datalogger/datalogger.yaml")
     process = subprocess.run(command, stdout=subprocess.PIPE)  # noqa: S603
@@ -40,7 +45,7 @@ def test_cli_read_success():
 def test_cli_run_almost_success():
     exitcode, output = invoke("ds18b20-datalogger run ds18b20_datalogger/datalogger.yaml")
     assert exitcode == 1
-    assert "nodename nor servname provided, or not known" in output
+    assert "nodename nor servname provided, or not known" in output or "Name or service not known" in output
 
 
 def test_cli_make_config():
