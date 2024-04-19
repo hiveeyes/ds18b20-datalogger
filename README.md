@@ -42,7 +42,15 @@ https://community.hiveeyes.org/t/laborprotokoll-4x5-temp-matrix-mit-ds18b20/5102
   when acquired through [Kotori DAQ].
 
 
+## Synopsis
+
+```shell
+ds18b20-datalogger run etc/mois.yaml
+```
+
+
 ## Setup
+
 We recommend to install the program into a Python virtualenv.
 ```shell
 python3 -m venv .venv
@@ -69,21 +77,12 @@ https://community.hiveeyes.org/t/ds18b20-temperatur-sensoren-am-one-wire-bus-ano
 ssh youruser@yourpi
 screen
 source /path/to/ds18b20-datalogger/.venv/bin/activate
-ds18b20-datalogger
+wget https://github.com/hiveeyes/ds18b20-datalogger/raw/main/etc/mois.yaml
+ds18b20-datalogger run mois.yaml
 ```
 
 ### MQTT data upload to Hiveeyes
 https://community.hiveeyes.org/t/daten-per-mqtt-und-python-ans-backend-auf-swarm-hiveeyes-org-ubertragen/94/6
-
-### Format your array
-https://community.hiveeyes.org/t/how-to-visualize-2-dimensional-temperature-data-in-grafana/974/9
-```python
-matrix = [[temp_ir_1_1, temp_ir_1_2, temp_ir_1_3, temp_ir_1_4, temp_ir_1_5, temp_ir_1_6],
-          [temp_ir_2_1, temp_ir_2_2, temp_ir_2_3, temp_ir_2_4, temp_ir_2_5, temp_ir_2_6],
-          [temp_ir_3_1, temp_ir_3_2, temp_ir_3_3, temp_ir_3_4, temp_ir_3_5, temp_ir_3_6],
-          [temp_ir_4_1, temp_ir_4_2, temp_ir_4_3, temp_ir_4_4, temp_ir_4_5, temp_ir_4_6],
-          [temp_ir_5_1, temp_ir_5_2, temp_ir_5_3, temp_ir_5_4, temp_ir_5_5, temp_ir_5_6]]
-```
 
 ### Data visualization in Grafana
 https://swarm.hiveeyes.org/grafana/d/Y9PcgE4Sz/mois-ex-wtf-test-ir-sensor-svg-pixmap-copy
@@ -95,6 +94,11 @@ https://community.hiveeyes.org/t/temperatursensoren-justieren-kalibrieren/1744/2
 ```
 */5 * * * * cd /path/to/data-directory && /path/to/ds18b20-datalogger/.venv/bin/ds18b20-datalogger
 ```
+
+## Acknowledgements
+
+Ursprünglicher Code zur Datenverarbeitung auf dem Pi:
+https://community.element14.com/products/raspberry-pi/raspberrypi_projects/b/blog/posts/multiple-ds18b20-temp-sensors-interfacing-with-raspberry-pi?CommentId=9470e4e9-b054-4dd3-9a3f-ac9d1fe38087
 
 
 ## Contributing
