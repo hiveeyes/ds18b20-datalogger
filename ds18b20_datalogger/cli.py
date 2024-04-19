@@ -4,6 +4,11 @@ from pathlib import Path
 from ds18b20_datalogger.core import read_ds18b20_sensor_matrix, send_measurement_mqtt
 from ds18b20_datalogger.model import Settings
 
+if sys.version_info < (3, 9):
+    from importlib_resources import files
+else:
+    from importlib.resources import files
+
 
 def main():
     if not sys.argv[1:]:
@@ -18,5 +23,8 @@ def main():
         settings = Settings.from_file(configfile)
         reading = read_ds18b20_sensor_matrix(settings.devicemap)
         send_measurement_mqtt(settings.mqtt, reading)
+    elif subcommand == "make-config":
+        config_template = files("ds18b20_datalogger") / "datalogger.yaml"
+        print(config_template.read_text(), file=sys.stdout)  # noqa: T201
     else:
         raise ValueError(f"Subcommand unknown: {subcommand}")

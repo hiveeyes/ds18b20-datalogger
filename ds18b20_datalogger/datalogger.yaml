@@ -1,0 +1,31 @@
+# Configuration file for ds18b20-datalogger
+# https://github.com/hiveeyes/ds18b20-datalogger
+
+mqtt:
+
+  # MQTT broker connection.
+  client_id: "ds18b20-datalogger"
+  host: "mqtt.example.org"
+  port: 1883
+  username: "username"
+  password: "password"
+
+  # MQTT topic in SensorWAN 3.0 format.
+  # https://hiveeyes.org/docs/arduino/SensorWAN.html
+  #
+  # Format: {realm}/{network}/{group}/{name}/data.json
+  topic: "organization/beekeeper/apiary/hive/data.json"
+
+one-wire:
+  - name: temp-ir-1-1
+    path: /sys/bus/w1/devices/28-0346d4430b06
+  - name: temp-ir-1-2
+    path: /sys/bus/w1/devices/28-0cf3d443ba40
+  - name: temp-ir-1-3
+    path: /sys/bus/w1/devices/28-0e49d44343bd
+  - name: temp-ir-2-1
+    path: /sys/bus/w1/devices/28-2231d443d266
+  - name: temp-ir-2-2
+    path: /sys/bus/w1/devices/28-282bd4430f5e
+  - name: temp-ir-2-3
+    path: /sys/bus/w1/devices/28-2846d443e4f2
