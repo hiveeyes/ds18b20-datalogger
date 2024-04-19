@@ -1,3 +1,4 @@
+import json
 import sys
 from pathlib import Path
 
@@ -11,10 +12,14 @@ else:
 
 
 def main():
+
+    # Sanity checks.
     if not sys.argv[1:]:
         raise ValueError("Program needs a subcommand")
     subcommand = sys.argv[1]
-    if subcommand == "run":
+
+    # Evaluate subcommand.
+    if subcommand in ["run", "read"]:
         if not sys.argv[2:]:
             raise ValueError("Program needs a configuration file")
         configfile = Path(sys.argv[2])
@@ -22,12 +27,18 @@ def main():
             raise ValueError(f"Configuration file does not exist: {configfile}")
         settings = Settings.from_file(configfile)
         reading = read_ds18b20_sensor_matrix(settings.devicemap)
-        send_measurement_mqtt(settings.mqtt, reading)
+        if subcommand == "read":
+            print(json.dumps(reading.to_dict(), indent=2))  # noqa: T201
+        elif subcommand == "run":
+            send_measurement_mqtt(settings.mqtt, reading)
+
     elif subcommand == "make-config":
         config_template = files("ds18b20_datalogger") / "datalogger.yaml"
         print(config_template.read_text(), file=sys.stdout)  # noqa: T201
+
     elif subcommand == "make-dashboard":
         dashboard = files("ds18b20_datalogger") / "grafana-dashboard.json"
         print(dashboard.read_text(), file=sys.stdout)  # noqa: T201
+
     else:
         raise ValueError(f"Subcommand unknown: {subcommand}")
