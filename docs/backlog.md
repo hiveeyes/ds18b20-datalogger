@@ -1,10 +1,17 @@
 # Backlog for ds18b20-datalogger
 
 ## Iteration +1
-- Improve documentation
-- Publish to PyPI
+
+## Iteration +2
+- By default, probe configuration at `/etc/ds18b20-datalogger/config.yaml`
+- Add possibility to connect to MQTT/SSL
 
 ## Done
 - Better software tests
 - Break out sensor mapping configuration from code
   to make it re-usable across different setups
+- Publish to PyPI
+- Subcommand `make-dashboard`
+- Subcommand `read`
+- Test coverage 100%?
+- Improve documentation
