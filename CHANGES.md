@@ -1,6 +1,8 @@
 # Changes for ds18b20-datalogger
 
 ## Unreleased
+
+## v0.0.3 - 2024-04-20
 - Tests: Make sensor tests work, using a fake sysfs filesystem
 - Tests: Added basic test case for CLI interface
 - Removed support for Python 3.7
