@@ -26,5 +26,8 @@ def main():
     elif subcommand == "make-config":
         config_template = files("ds18b20_datalogger") / "datalogger.yaml"
         print(config_template.read_text(), file=sys.stdout)  # noqa: T201
+    elif subcommand == "make-dashboard":
+        dashboard = files("ds18b20_datalogger") / "grafana-dashboard.json"
+        print(dashboard.read_text(), file=sys.stdout)  # noqa: T201
     else:
         raise ValueError(f"Subcommand unknown: {subcommand}")
