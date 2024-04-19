@@ -1,18 +1,3 @@
-#!/usr/bin/env python
-"""
-Configure:
-- Insert your own sensor addresses (read_ds18b20_sensor_matrix).
-- Adjust MQTT connection settings and credentials (send_measurement_mqtt).
-
-Start:
-```
-ssh to your pi
-screen
-source /path/to/ds18b20-datalogger/.venv/bin/activate
-ds18b20-datalogger
-```
-"""  # noqa: E501
-
 import json
 import os
 
