@@ -1,3 +1,4 @@
+import json
 import subprocess
 import typing as t
 
@@ -28,3 +29,11 @@ def test_cli_make_config():
     config = yaml.safe_load(output)
     assert "mqtt" in config
     assert "one-wire" in config
+
+
+def test_cli_make_dashboard():
+    exitcode, output = invoke("ds18b20-datalogger make-dashboard")
+    dashboard = json.loads(output)
+    assert "annotations" in dashboard
+    assert "panels" in dashboard
+    assert "title" in dashboard
