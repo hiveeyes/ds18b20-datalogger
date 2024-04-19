@@ -15,7 +15,7 @@ class Device:
     """
 
     name: str
-    path: Path
+    path: str
 
 
 class DeviceMap:
@@ -34,15 +34,16 @@ class DeviceMap:
 
     def by_fullpath(self, path: Path) -> Device:
         for device in self.devices:
-            if device.path == path:
+            if str(device.path) == str(path):
                 return device
         raise KeyError(f"Device not found: path={path}")
 
     def by_pathname(self, path: Path) -> Device:
+        needle = Path(path).name
         for device in self.devices:
-            if device.path.name == path.name:
+            if Path(device.path).name == needle:
                 return device
-        raise KeyError(f"Device not found: pathname={path.name}")
+        raise KeyError(f"Device not found: pathname={needle}")
 
 
 @dataclasses.dataclass
