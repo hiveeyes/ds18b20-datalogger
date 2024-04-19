@@ -1,11 +1,13 @@
 import os
 import sys
+from pathlib import Path
 
 import pytest
 import yaml
 from pyfakefs.fake_filesystem_unittest import Patcher as FakeFS
 
 from ds18b20_datalogger.core import read_ds18b20_sensor_matrix, send_measurement_mqtt
+from ds18b20_datalogger.model import Settings
 
 if sys.version_info < (3, 9):
     from importlib_resources import files
@@ -62,9 +64,15 @@ def fake_hardware_defunct(onewire_defunct, fs: FakeFS):
     yield fs
 
 
-def test_sensors_success(fake_hardware_success):
-    reading = read_ds18b20_sensor_matrix()
-    assert reading == [
+@pytest.fixture
+def settings() -> Settings:
+    configfile = Path("etc") / "mois.yaml"
+    return Settings.from_file(configfile)
+
+
+def test_sensors_success(settings, fake_hardware_success):
+    reading = read_ds18b20_sensor_matrix(settings.devicemap)
+    assert reading.to_matrix(5) == [
         [0.001, 0.002, 0.003, 0.004, 0.005],
         [0.006, 0.007, 0.008, 0.009, 0.010],
         [0.011, 0.012, 0.013, 0.014, 0.015],
@@ -74,9 +82,9 @@ def test_sensors_success(fake_hardware_success):
     ]
 
 
-def test_sensors_defunct(fake_hardware_defunct):
-    reading = read_ds18b20_sensor_matrix()
-    assert reading == [
+def test_sensors_defunct(settings, fake_hardware_defunct):
+    reading = read_ds18b20_sensor_matrix(settings.devicemap)
+    assert reading.to_matrix(5) == [
         [0.001, 0.002, 0.003, 0.004, 0.005],
         [-99.0, 0.007, 0.008, None, 0.010],
         [0.011, 0.012, 0.013, 0.014, 0.015],
@@ -86,9 +94,9 @@ def test_sensors_defunct(fake_hardware_defunct):
     ]
 
 
-def test_sensors_none():
-    reading = read_ds18b20_sensor_matrix()
-    assert reading == [
+def test_sensors_none(settings):
+    reading = read_ds18b20_sensor_matrix(settings.devicemap)
+    assert reading.to_matrix(5) == [
         [None, None, None, None, None],
         [None, None, None, None, None],
         [None, None, None, None, None],
@@ -98,6 +106,6 @@ def test_sensors_none():
     ]
 
 
-def test_telemetry():
-    reading = read_ds18b20_sensor_matrix()
-    send_measurement_mqtt(reading)
+def test_telemetry(settings):
+    reading = read_ds18b20_sensor_matrix(settings.devicemap)
+    send_measurement_mqtt(settings.mqtt, reading)
