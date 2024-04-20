@@ -113,7 +113,7 @@ On our community forum, you can find relevant discussions about this topic.
 
 ## Acknowledgements
 
-The original code this implementation has been derived from has been discovered
+The original code of this implementation has been discovered
 on the element14 community forum at [Multiple DS18B20 Temp sensors interfacing
 with Raspberry Pi], shared by [@laluha]. Thanks!
 
