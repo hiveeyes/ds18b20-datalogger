@@ -1,6 +1,8 @@
 # Changes for ds18b20-datalogger
 
 ## Unreleased
+
+## v0.0.4 - 2024-04-21
 - Grafana Dashboard: Trim identifying information: `id`, `uid`,
   `version`. Thanks, @bee-mois.
 - Emit user admonition on `make-config` subcommand. Thanks,
