@@ -27,7 +27,6 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 924,
   "links": [
     {
       "icon": "external link",
@@ -2035,9 +2034,7 @@
   },
   "timezone": "browser",
   "title": "DS18B20 Temperature Matrix Heatmap 5x6",
-  "uid": "T49wHSaIk",
   "variables": {
     "list": []
-  },
-  "version": 7
+  }
 }
