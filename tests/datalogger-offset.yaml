@@ -1,0 +1,11 @@
+# Test configuration file for validating per-sensor offsets.
+
+one-wire:
+  - name: temp-ir-1-1
+    path: /sys/bus/w1/devices/28-0346d4430b06
+    offset: -0.5
+  - name: temp-ir-1-2
+    path: /sys/bus/w1/devices/28-0cf3d443ba40
+    offset: null
+  - name: temp-ir-1-3
+    path: /sys/bus/w1/devices/28-0e49d44343bd

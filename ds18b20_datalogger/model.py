@@ -16,6 +16,7 @@ class Device:
 
     name: str
     path: str
+    offset: t.Union[float, None] = None
 
 
 class DeviceMap:
