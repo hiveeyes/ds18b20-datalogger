@@ -1993,9 +1993,14 @@
   "schemaVersion": 22,
   "style": "dark",
   "tags": [
-    "instant",
-    "hiveeyes",
-    "mois"
+    "beehive monitoring",
+    "ds18b20",
+    "grafana",
+    "kotori daq",
+    "mqtt",
+    "raspberry pi",
+    "sensor network",
+    "temperature matrix"
   ],
   "templating": {
     "list": []
