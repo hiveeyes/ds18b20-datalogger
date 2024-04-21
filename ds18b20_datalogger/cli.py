@@ -4,6 +4,7 @@ from pathlib import Path
 
 from ds18b20_datalogger.core import read_ds18b20_sensor_matrix, send_measurement_mqtt
 from ds18b20_datalogger.model import Settings
+from ds18b20_datalogger.util import msg
 
 if sys.version_info < (3, 9):
     from importlib_resources import files  # pragma: nocover
@@ -33,6 +34,9 @@ def main():
             send_measurement_mqtt(settings.mqtt, reading)
 
     elif subcommand == "make-config":
+        print(  # noqa: T201
+            msg("Please make sure to edit the configuration file before starting the program."), file=sys.stderr
+        )
         config_template = files("ds18b20_datalogger") / "datalogger.yaml"
         print(config_template.read_text(), file=sys.stdout)  # noqa: T201
 
