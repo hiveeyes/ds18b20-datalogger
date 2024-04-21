@@ -7,6 +7,7 @@ document.
 ## Installation
 ```shell
 sudo su -
+mkdir -p /etc/ds18b20-datalogger
 python3 -m venv /opt/ds18b20-datalogger
 /opt/ds18b20-datalogger/bin/pip install ds18b20-datalogger
 /opt/ds18b20-datalogger/bin/ds18b20-datalogger make-config > /etc/ds18b20-datalogger/config.yaml
