@@ -73,5 +73,7 @@ def read_ds18b20_sensor_matrix(devicemap: DeviceMap) -> Reading:
     reading = Reading()
     for device in devicemap.devices:
         value = read_temp(device.path)
+        if value is not None and device.offset is not None:
+            value += device.offset
         reading.add_measurement(name=device.name, value=value)
     return reading

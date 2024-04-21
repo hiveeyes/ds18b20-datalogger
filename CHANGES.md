@@ -7,6 +7,8 @@
   @bee-mois.
 - Data Model: Make MQTT settings optional, to allow running the
   data logger without configuring them.
+- Allow defining per-sensor offsets within the configuration
+  file. Thanks, @bee-mois.
 
 ## v0.0.3 - 2024-04-20
 - Tests: Make sensor tests work, using a fake sysfs filesystem
