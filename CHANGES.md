@@ -5,6 +5,8 @@
   `version`. Thanks, @bee-mois.
 - Emit user admonition on `make-config` subcommand. Thanks,
   @bee-mois.
+- Data Model: Make MQTT settings optional, to allow running the
+  data logger without configuring them.
 
 ## v0.0.3 - 2024-04-20
 - Tests: Make sensor tests work, using a fake sysfs filesystem
