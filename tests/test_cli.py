@@ -49,10 +49,12 @@ def test_cli_run_almost_success():
 
 
 def test_cli_make_config():
-    exitcode, output = invoke("ds18b20-datalogger make-config")
-    config = yaml.safe_load(output)
+    command = shlex.split("ds18b20-datalogger make-config")
+    process = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)  # noqa: S603
+    config = yaml.safe_load(process.stdout)
     assert "mqtt" in config
     assert "one-wire" in config
+    assert b"Please make sure to edit the configuration" in process.stderr
 
 
 def test_cli_make_dashboard():

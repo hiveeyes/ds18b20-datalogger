@@ -16,6 +16,7 @@ class Device:
 
     name: str
     path: str
+    offset: t.Union[float, None] = None
 
 
 class DeviceMap:
@@ -66,8 +67,8 @@ class Settings:
     General settings container.
     """
 
-    mqtt: MqttSettings
-    devicemap: DeviceMap
+    mqtt: t.Union[MqttSettings, None]
+    devicemap: t.Union[DeviceMap, None]
 
     @classmethod
     def from_file(cls, configfile: Path):
@@ -75,7 +76,10 @@ class Settings:
         devicemap = DeviceMap()
         for item in data["one-wire"]:
             devicemap.devices.append(Device(**item))
-        return cls(mqtt=MqttSettings(**data["mqtt"]), devicemap=devicemap)
+        mqtt = None
+        if "mqtt" in data:
+            mqtt = MqttSettings(**data["mqtt"])
+        return cls(mqtt=mqtt, devicemap=devicemap)
 
 
 @dataclasses.dataclass

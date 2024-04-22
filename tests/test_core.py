@@ -109,3 +109,18 @@ def test_sensors_none(settings):
 def test_telemetry(settings):
     reading = read_ds18b20_sensor_matrix(settings.devicemap)
     send_measurement_mqtt(settings.mqtt, reading)
+
+
+@pytest.fixture
+def offset_settings() -> Settings:
+    configfile = Path("tests") / "datalogger-offset.yaml"
+    return Settings.from_file(configfile)
+
+
+def test_sensors_offset(offset_settings, fake_hardware_success):
+    reading = read_ds18b20_sensor_matrix(offset_settings.devicemap)
+    assert reading.to_dict() == {
+        "temp-ir-1-1": -0.499,
+        "temp-ir-1-2": 0.002,
+        "temp-ir-1-3": 0.003,
+    }

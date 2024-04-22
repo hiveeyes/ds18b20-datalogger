@@ -1,8 +1,10 @@
 # Backlog for ds18b20-datalogger
 
 ## Iteration +1
-- Documentation: How to set up Kotori DAQ
+- Documentation: MQTT publishing guide
 - Documentation: How to provision Grafana Dashboard
+- Documentation: How to set up Kotori DAQ
+- Documentation: Better describe the 5x6 temperature sensor matrix
 
 ## Iteration +2
 - By default, probe configuration at `/etc/ds18b20-datalogger/config.yaml`

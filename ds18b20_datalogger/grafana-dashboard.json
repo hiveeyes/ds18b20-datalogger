@@ -27,7 +27,6 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 924,
   "links": [
     {
       "icon": "external link",
@@ -1994,9 +1993,14 @@
   "schemaVersion": 22,
   "style": "dark",
   "tags": [
-    "instant",
-    "hiveeyes",
-    "mois"
+    "beehive monitoring",
+    "ds18b20",
+    "grafana",
+    "kotori daq",
+    "mqtt",
+    "raspberry pi",
+    "sensor network",
+    "temperature matrix"
   ],
   "templating": {
     "list": []
@@ -2035,9 +2039,7 @@
   },
   "timezone": "browser",
   "title": "DS18B20 Temperature Matrix Heatmap 5x6",
-  "uid": "T49wHSaIk",
   "variables": {
     "list": []
-  },
-  "version": 7
+  }
 }
